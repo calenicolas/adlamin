@@ -1,0 +1,19 @@
+#!/bin/bash
+
+. /usr/local/lib/docker_utils/secure_docker_run.sh
+. /usr/local/lib/iptables_utils/allow_client.sh
+. /usr/local/lib/reverse_proxy/create_reverse_proxy.sh
+
+function create_docker_registry() {
+  secure_docker_run "registry" "5000" "registry" "registry:2" "eth0" "2001" "1001 2002 3003" "tcp"
+  allow_client "tcp" "internal" "5000"
+}
+
+create_docker_registry
+create_reverse_proxy "dmz" "80" "dmz" "nginx" "tcp" "eth0" "80"
+
+mkdir -p /root/deploy-service/deploy/pending
+mkdir -p /root/deploy-service/deploy/done
+
+EXTRA_OPTS="--mount type=bind,source=/root/deploy-service/deploy/pending,target=/etc/pending-deploys"
+secure_docker_run "deploy-service" "8080" "deploy_service" "deploy-service" "eth0" "2002" "4004 5005 6006" "tcp" "$EXTRA_OPTS"

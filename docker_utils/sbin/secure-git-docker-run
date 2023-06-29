@@ -1,0 +1,29 @@
+#!/bin/bash
+. /usr/local/lib/docker_utils/secure_docker_run.sh
+. /usr/local/lib/docker_utils/git_docker_build.sh
+
+echo "Container name:"
+read -r CONTAINER_NAME
+echo "Service port:"
+read -r SERVICE_PORT
+echo "Image name:"
+read -r IMAGE_NAME
+echo "Git repository:"
+read -r GIT_REPO
+echo "Security sequence:"
+read -r SEQUENCE
+echo "Internal network name:"
+read -r INTERNAL_NETWORK
+echo "Public port:"
+read -r PUBLIC_PORT
+echo "Protocol:"
+read -r PROTOCOL
+echo "Public interface:"
+read -r PUBLIC_INTERFACE
+
+if [ -n "$GIT_REPO" ]
+then
+  git_docker_build "$GIT_REPO" "$IMAGE_NAME"
+fi
+
+secure_docker_run "$CONTAINER_NAME" "$SERVICE_PORT" "$INTERNAL_NETWORK" "$IMAGE_NAME" "$PUBLIC_INTERFACE" "$PUBLIC_PORT" "$SEQUENCE" "$PROTOCOL"

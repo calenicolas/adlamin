@@ -1,0 +1,40 @@
+#!/bin/bash
+
+cd iptables_utils
+./install.sh
+cd ..
+
+./install_dependencies
+
+cd cd_utils
+./install.sh
+cd ..
+
+cd docker_utils
+./install.sh
+cd ..
+
+cd knock_utils
+./install.sh
+cd ..
+
+cd reverse_proxy
+./install.sh
+cd ..
+
+. /usr/local/lib/iptables_utils/allow_client.sh
+
+allow_client "tcp" "eth0" "80"
+allow_client "tcp" "eth0" "443"
+allow_client "udp" "eth0" "53"
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP
+iptables -P FORWARD DROP
+iptables-save > /etc/iptables/rules.v4
+
+nano /etc/sysctl.conf
+sysctl -p
+
+clear
+
+echo "Listo. Solo queda agregar al daemon.json de docker la ip del registry"

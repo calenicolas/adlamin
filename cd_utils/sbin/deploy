@@ -1,0 +1,31 @@
+#!/bin/bash
+. /usr/local/lib/reverse_proxy/add_server_to_reverse_proxy.sh
+. /usr/local/lib/docker_utils/git_docker_build.sh
+. /usr/local/lib/docker_utils/internal_docker_run.sh
+. /usr/local/lib/docker_utils/get_container_ip.sh
+
+function run_deploy() {
+  local IMAGE_NAME=$1
+  local CONTAINER_NAME=$2
+  local SERVICE_PORT=$3
+  local CONTAINER_NETWORK=$4
+  local PROXY_CONTAINER_NAME=$5
+  local SERVER_NAME=$6
+  local GIT_REPO=$7
+
+  local CONTAINER_IP
+
+  if [ -n "$GIT_REPO" ]
+  then
+    git_docker_build "$GIT_REPO" "$IMAGE_NAME"
+    CONTAINER_IP=$(internal_docker_run "$IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK")
+  else
+    local DOCKER_REGISTRY_IP
+    DOCKER_REGISTRY_IP=$(get_container_ip "registry" "internal")
+    local FULL_IMAGE_NAME="$DOCKER_REGISTRY_IP:5000/$IMAGE_NAME"
+    CONTAINER_IP=$(internal_docker_run "$FULL_IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK")
+  fi
+  add_server_to_reverse_proxy "$PROXY_CONTAINER_NAME" "$SERVER_NAME" "/" "$CONTAINER_IP" "$SERVICE_PORT"
+}
+
+run_deploy "$1" "$2" "$3" "$4" "$5" "$6" "$7"

@@ -1,0 +1,21 @@
+#!/bin/bash
+. /usr/local/lib/docker_utils/internal_docker_run.sh
+. /usr/local/lib/docker_utils/git_docker_build.sh
+
+echo "Container name:"
+read -r CONTAINER_NAME
+echo "Service port:"
+read -r SERVICE_PORT
+echo "Image name:"
+read -r IMAGE_NAME
+echo "Git repo:"
+read -r GIT_REPO
+echo "Internal network name:"
+read -r INTERNAL_NETWORK
+
+if [ -n "$GIT_REPO" ]
+then
+  git_docker_build "$GIT_REPO" "$IMAGE_NAME"
+fi
+
+internal_docker_run "$IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$INTERNAL_NETWORK"

@@ -1,0 +1,4 @@
+#!/bin/bash 
+. /usr/local/lib/iptables_utils/allow_forward_to_server.sh
+
+allow_forward_to_server "$1" "$2" "$3" "$4" "$5" "$6"

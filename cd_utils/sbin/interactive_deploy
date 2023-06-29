@@ -1,0 +1,48 @@
+#!/bin/bash
+
+. /usr/local/lib/reverse_proxy/add_server_to_reverse_proxy.sh
+. /usr/local/lib/docker_utils/internal_docker_run.sh
+. /usr/local/lib/docker_utils/git_docker_build.sh
+
+function deploy() {
+  local GIT_REPO=$1
+  local IMAGE_NAME=$2
+  local CONTAINER_NAME=$3
+  local SERVICE_PORT=$4
+  local CONTAINER_NETWORK=$5
+  local PROXY_CONTAINER_NAME=$6
+  local PROXY_NETWORK=$7
+  local PROTOCOL=$8
+  local SERVER_NAME=$9
+
+  if [ -n "$GIT_REPO" ]
+  then
+    git_docker_build "$GIT_REPO" "$IMAGE_NAME"
+  fi
+
+  local CONTAINER_IP
+  CONTAINER_IP=$(internal_docker_run "$IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK")
+
+  add_server_to_reverse_proxy "$PROXY_CONTAINER_NAME" "$SERVER_NAME" "/" "$CONTAINER_IP" "$SERVICE_PORT"
+}
+
+echo "Git repository:"
+read -r GIT_REPO
+echo "Image name (Can include the host behind, ex 172.21.0.2:5000):"
+read -r IMAGE_NAME
+echo "Container name:"
+read -r CONTAINER_NAME
+echo "Service port:"
+read -r SERVICE_PORT
+echo "Container network:"
+read -r CONTAINER_NETWORK
+echo "Proxy container name:"
+read -r PROXY_CONTAINER_NAME
+echo "Proxy container network:"
+read -r PROXY_NETWORK
+echo "Protocol:"
+read -r PROTOCOL
+echo "Server name:"
+read -r SERVER_NAME
+
+deploy "$GIT_REPO" "$IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK" "$PROXY_CONTAINER_NAME" "$PROXY_NETWORK" "$PROTOCOL" "$SERVER_NAME"

@@ -1,0 +1,11 @@
+[open%NAME%]
+        sequence    = %OPEN_SEQUENCE%
+        seq_timeout = 5
+        command     = %OPEN_COMMAND%
+        tcpflags    = syn
+
+[close%NAME%]
+        sequence    = %CLOSE_SEQUENCE%
+        seq_timeout = 5
+        command     = %CLOSE_COMMAND%
+        tcpflags    = syn

@@ -1,0 +1,15 @@
+#!/bin/bash
+. /usr/local/lib/reverse_proxy/add_server_to_reverse_proxy.sh
+
+echo "Container ip:"
+read -r CONTAINER_IP
+echo "Container name:"
+read -r CONTAINER_NAME
+echo "Server name:"
+read -r SERVER_NAME
+echo "URI:"
+read -r URI
+echo "Service port:"
+read -r SERVICE_PORT
+
+add_server_to_reverse_proxy "$CONTAINER_NAME" "$SERVER_NAME" "$URI" "$CONTAINER_IP" "$SERVICE_PORT"

@@ -1,0 +1,11 @@
+[Unit]
+Description=Cd default infra (docker registry, dmz reverse proxy)
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/root/default-infrastructure
+
+[Install]
+WantedBy=multi-user.target

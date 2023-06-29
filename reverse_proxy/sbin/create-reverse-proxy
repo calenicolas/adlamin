@@ -1,0 +1,19 @@
+#!/bin/bash
+. /usr/local/lib/reverse_proxy/create_reverse_proxy.sh
+
+echo "Container name:"
+read -r CONTAINER_NAME
+echo "Service port:"
+read -r SERVICE_PORT
+echo "Image name:"
+read -r IMAGE_NAME
+echo "Internal network name:"
+read -r INTERNAL_NETWORK
+echo "Public port:"
+read -r PUBLIC_PORT
+echo "Protocol:"
+read -r PROTOCOL
+echo "Public interface:"
+read -r PUBLIC_INTERFACE
+
+create_reverse_proxy "$CONTAINER_NAME" "$SERVICE_PORT" "$INTERNAL_NETWORK" "$IMAGE_NAME" "$PROTOCOL" "$PUBLIC_INTERFACE" "$PUBLIC_PORT"

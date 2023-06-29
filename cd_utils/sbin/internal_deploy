@@ -1,0 +1,26 @@
+#!/bin/bash
+
+. /usr/local/lib/docker_utils/git_docker_build.sh
+. /usr/local/lib/docker_utils/internal_docker_run.sh
+. /usr/local/lib/docker_utils/get_container_ip.sh
+
+function run_deploy() {
+  local IMAGE_NAME=$1
+  local CONTAINER_NAME=$2
+  local SERVICE_PORT=$3
+  local CONTAINER_NETWORK=$4
+  local GIT_REPO=$5
+
+  if [ -n "$GIT_REPO" ]
+  then
+    git_docker_build "$GIT_REPO" "$IMAGE_NAME"
+    internal_docker_run "$IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK"
+  else
+    local DOCKER_REGISTRY_IP
+    DOCKER_REGISTRY_IP=$(get_container_ip "registry" "registry")
+    local FULL_IMAGE_NAME="$DOCKER_REGISTRY_IP:5000/$IMAGE_NAME"
+    internal_docker_run "$FULL_IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK"
+  fi
+}
+
+run_deploy "$1" "$2" "$3" "$4" "$5"

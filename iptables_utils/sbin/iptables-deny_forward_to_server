@@ -1,0 +1,4 @@
+#!/bin/bash 
+. /usr/local/lib/iptables_utils/deny_forward_to_server.sh
+
+deny_forward_to_server "$1" "$2" "$3" "$4" "$5" "$6"

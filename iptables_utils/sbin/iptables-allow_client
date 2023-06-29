@@ -1,0 +1,13 @@
+#!/bin/bash 
+
+. /usr/local/lib/iptables_utils/allow_client.sh
+
+echo "Protocol:"
+read -r PROTOCOL
+echo "Interface:" 
+read -r INTERFACE
+echo "Port:"
+read -r PORT
+
+allow_client "$PROTOCOL" "$INTERFACE" "$PORT"
+iptables-save > /etc/iptables/rules.v4
