@@ -24,7 +24,7 @@ cd ..
 
 . /usr/local/lib/iptables_utils/allow_client.sh
 
-read -p "Enter your name : " PUBLIC_NETWORK
+read -p "Public network name: " PUBLIC_NETWORK
 
 allow_client "tcp" "$PUBLIC_NETWORK" "80"
 allow_client "tcp" "$PUBLIC_NETWORK" "443"
