@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function generate_nginx_conf() {
+function add_upstream() {
   local CONTAINER_IP="$1"
   local SERVICE_PORT="$2"
   local UPSTREAMS_FILE="$3"
