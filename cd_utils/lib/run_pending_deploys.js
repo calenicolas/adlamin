@@ -4,8 +4,8 @@ const net = require('net');
 const fs = require('fs');
 const { exec } = require('child_process');
 
-const pendingDeploysDirectory = "/root/deploy-service/deploy/pending/"
-const doneDeploysDirectory = "/root/deploy-service/deploy/done/"
+const pendingDeploysDirectory = "/root/deploy-service/deploy/pending/";
+const doneDeploysDirectory = "/root/deploy-service/deploy/done/";
 
 function deploy(jsonData, done = () => {}) {
     console.log("Deploying:", jsonData);
@@ -17,18 +17,40 @@ function deploy(jsonData, done = () => {}) {
     const proxyContainerName = jsonData.proxy_container_name;
     const serverName = jsonData.server_name;
     const internal = jsonData.internal || false;
+    const operation = jsonData.operation || "add";
 
     const parameters = [
         imageName, containerName, servicePort, containerNetwork, proxyContainerName, serverName
     ];
 
-    const stringArguments = parameters.join(" ");
-
-    console.log("Deploy arguments:", stringArguments);
-    if (internal)
-        exec("/usr/local/sbin/internal_deploy " + stringArguments, done);
+    if (operation == "delete")
+        killInstance(parameters, done);
     else
-        exec("/usr/local/sbin/deploy " + stringArguments, done);
+        addInstance(parameters, done);
+}
+
+function killInstance(parameters, done) {
+    const stringArguments = parameters.join(" ");
+    console.log("Kill arguments:", stringArguments);
+
+    exec("/usr/local/sbin/kill " + stringArguments, done);
+}
+
+function addInstance(parameters, done) {
+    const stringArguments = parameters.join(" ");
+    console.log("Deploy arguments:", stringArguments);
+
+    if (internal) {
+        internalDeploy(parameters, done);
+        return;
+    }
+
+    exec("/usr/local/sbin/deploy " + stringArguments, done);
+}
+
+function internalDeploy(parameters, done) {
+    const stringArguments = parameters.slice(0, -2).join(" ");
+    exec("/usr/local/sbin/internal_deploy " + stringArguments, done);
 }
 
 function runPendingDeploys() {
@@ -40,7 +62,8 @@ function runPendingDeploys() {
             }
         })
         .forEach((pendingDeploy) => {
-            deploy(JSON.parse(pendingDeploy.content), (error) => {
+            const deployData = JSON.parse(pendingDeploy.content);
+            deploy(deployData, (error) => {
                 if (error) return console.error(error);
                 fs.renameSync(
                     pendingDeploysDirectory + pendingDeploy.fileName,
@@ -50,4 +73,4 @@ function runPendingDeploys() {
         });
 }
 
-runPendingDeploys()
+runPendingDeploys();

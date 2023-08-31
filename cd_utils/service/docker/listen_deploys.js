@@ -27,6 +27,7 @@ function handlePostRequest(request, response) {
     request.on('end', function () {
         try {
             const jsonBody = JSON.parse(body);
+            validateBody(jsonBody);
             writeData(jsonBody);
             response.writeHead(200);
             response.end();
@@ -38,7 +39,7 @@ function handlePostRequest(request, response) {
     });
 }
 
-function writeData(body) {
+function validateBody(jsonBody) {
     const requiredKeys = [
         "image_name",
         "container_name",
@@ -47,10 +48,16 @@ function writeData(body) {
         "proxy_container_name",
         "server_name"
     ];
-    if(requiredKeys.some((key) => { return !body.hasOwnProperty(key); })) {
+    if (requiredKeys.some((key) => { return !body.hasOwnProperty(key); })) {
         throw new Error("Invalid deploy")
     }
+}
+
+function writeData(body) {
     const now = Date.now();
+    if (!body.operation) {
+        body.operation = "add";
+    }
     fs.writeFileSync(pendingDeploysDirectory + now + ".json", JSON.stringify(body));
 }
 

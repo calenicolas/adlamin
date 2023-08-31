@@ -1,0 +1,21 @@
+#!/bin/bash
+. /usr/local/lib/reverse_proxy/remove_server_to_reverse_proxy.sh
+. /usr/local/lib/docker_utils/get_container_ip.sh
+
+function kill() {
+  local IMAGE_NAME=$1
+  local CONTAINER_NAME=$2
+  local SERVICE_PORT=$3
+  local CONTAINER_NETWORK=$4
+  local PROXY_CONTAINER_NAME=$5
+  local SERVER_NAME=$6
+  local GIT_REPO=$7
+
+  local CONTAINER_IP
+  CONTAINER_IP=$(get_container_ip "$CONTAINER_NAME" "internal")
+
+  remove_server_to_reverse_proxy "$PROXY_CONTAINER_NAME" "$SERVER_NAME" "/" "$CONTAINER_IP" "$SERVICE_PORT"
+  docker kill $CONTAINER_NAME
+}
+
+run_deploy "$1" "$2" "$3" "$4" "$5" "$6" "$7"
