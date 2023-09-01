@@ -18,6 +18,17 @@ function getParameters(jsonData) {
     };
 }
 
+function asyncRepeat(operation, iterationAmount, done, actualIteration = 0) {
+    operation(() => {
+        actualIteration = actualIteration + 1;
+        if (actualIteration < iterationAmount) {
+            asyncRepeat(operation, iterationAmount, done, actualIteration)
+        } else {
+            done();
+        }
+    });
+}
+
 function deploy(jsonData, done = () => {}) {
     console.log("Deploying:", jsonData);
 
@@ -26,9 +37,9 @@ function deploy(jsonData, done = () => {}) {
     const internal = jsonData.internal || false;
     const parameters = getParameters(jsonData);
 
-    for (let i = 0; i < instancesAmount; i++) {
-        runOperation(operation, internal, parameters, done)
-    }
+    asyncRepeat((iterationDone) => {
+        runOperation(operation, internal, parameters, iterationDone)
+    }, instancesAmount, done);
 }
 
 function runOperation(operation, internal, parameters, done) {
