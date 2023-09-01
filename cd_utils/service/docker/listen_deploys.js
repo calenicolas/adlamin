@@ -48,7 +48,7 @@ function validateBody(jsonBody) {
         "proxy_container_name",
         "server_name"
     ];
-    if (requiredKeys.some((key) => { return !body.hasOwnProperty(key); })) {
+    if (requiredKeys.some((key) => { return !jsonBody.hasOwnProperty(key); })) {
         throw new Error("Invalid deploy")
     }
 }
