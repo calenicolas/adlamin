@@ -22,9 +22,12 @@ function deploy(jsonData, done = () => {}) {
     };
 
     if (operation == "delete")
-        killInstance(parameters, done);
-    else
-        addInstance(parameters, internal, done);
+        return killInstance(parameters, done);
+
+    if (operation == "replace")
+        return replaceInstance(parameters, internal, done);
+
+    addInstance(parameters, internal, done);
 }
 
 function getInstances(containerName) {
@@ -55,6 +58,12 @@ function saveNewInstance(containerName, newInstanceName) {
     instances[containerName].push(newInstanceName);
 
     writeFile(instancesFileName, instances);
+}
+
+function replaceInstance(parameters, internal, done) {
+    addInstance(parameters, internal, () => {
+        killInstance(parameters, done);
+    });
 }
 
 function killInstance(parameters, done) {
