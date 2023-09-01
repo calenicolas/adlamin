@@ -5,9 +5,7 @@ const writeFile = require('./write_file');
 
 const instancesFileName = "/root/deploy-service/deploy/instances.json";
 
-function deploy(jsonData, done = () => {}) {
-    console.log("Deploying:", jsonData);
-
+function getParameters(jsonData) {
     const imageName = jsonData.image_name;
     const containerName = jsonData.container_name;
     const servicePort = jsonData.service_port;
@@ -17,10 +15,23 @@ function deploy(jsonData, done = () => {}) {
     const internal = jsonData.internal || false;
     const operation = jsonData.operation || "add";
 
-    const parameters = {
+    return {
         imageName, containerName, servicePort, containerNetwork, proxyContainerName, serverName
     };
+}
 
+function deploy(jsonData, done = () => {}) {
+    console.log("Deploying:", jsonData);
+
+    const instancesAmount = jsonData.amount || 1;
+    const parameters = getParameters(jsonData);
+
+    for (let i = 0; i < instancesAmount; i++) {
+        runOperation(parameters, done)
+    }
+}
+
+function runOperation(parameters, done) {
     if (operation == "delete")
         return killInstance(parameters, done);
 
@@ -68,7 +79,7 @@ function replaceInstance(parameters, internal, done) {
 
 function killInstance(parameters, done) {
     const oldestInstance = getOlderInstance(parameters.containerName);
-    if (!oldestInstance) return;
+    if (!oldestInstance) return done();
 
     parameters.containerName = oldestInstance;
     const stringArguments = Object.values(parameters).join(" ");
