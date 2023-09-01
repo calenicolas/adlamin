@@ -71,6 +71,14 @@ function saveNewInstance(containerName, newInstanceName) {
     writeFile(instancesFileName, instances);
 }
 
+function saveDeletedInstance(containerName, newInstanceName) {
+    const instances = getInstances(containerName);
+
+    instances[containerName].shift();
+
+    writeFile(instancesFileName, instances);
+}
+
 function replaceInstance(parameters, internal, done) {
     addInstance(parameters, internal, () => {
         killInstance(parameters, done);
@@ -86,6 +94,7 @@ function killInstance(parameters, done) {
     console.log("Kill arguments:", stringArguments);
 
     exec("/usr/local/sbin/kill " + stringArguments, done);
+    saveDeletedInstance(containerName, oldestInstance);
 }
 
 function addInstance(parameters, internal, done) {
