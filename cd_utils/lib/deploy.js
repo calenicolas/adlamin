@@ -3,6 +3,8 @@ const { exec } = require('child_process');
 const readFile = require('./read_file');
 const writeFile = require('./write_file');
 
+const instancesFileName = "/root/deploy-service/deploy/instances.json";
+
 function deploy(jsonData, done = () => {}) {
     console.log("Deploying:", jsonData);
 
@@ -26,7 +28,7 @@ function deploy(jsonData, done = () => {}) {
 }
 
 function getInstances(containerName) {
-    const fileContent = readFile("/etc/cd-utils/instances.json", "{}");
+    const fileContent = readFile(instancesFileName, "{}");
     const instances = JSON.parse(fileContent);
 
     instances[containerName] = instances[containerName] || [];
@@ -52,7 +54,7 @@ function saveNewInstance(containerName, newInstanceName) {
 
     instances[containerName].push(newInstanceName);
 
-    writeFile("/etc/cd-utils/instances.json", instances);
+    writeFile(instancesFileName, instances);
 }
 
 function killInstance(parameters, done) {
