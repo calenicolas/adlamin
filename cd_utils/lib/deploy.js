@@ -1,5 +1,7 @@
 'use strict'
 const { exec } = require('child_process');
+const readFile = require('./read_file');
+const writeFile = require('./write_file');
 
 function deploy(jsonData, done = () => {}) {
     console.log("Deploying:", jsonData);
@@ -13,9 +15,9 @@ function deploy(jsonData, done = () => {}) {
     const internal = jsonData.internal || false;
     const operation = jsonData.operation || "add";
 
-    const parameters = [
+    const parameters = {
         imageName, containerName, servicePort, containerNetwork, proxyContainerName, serverName
-    ];
+    };
 
     if (operation == "delete")
         killInstance(parameters, done);
@@ -23,24 +25,66 @@ function deploy(jsonData, done = () => {}) {
         addInstance(parameters, internal, done);
 }
 
+function getInstances(containerName) {
+    const fileContent = readFile("/etc/cd-utils/instances.json", "{}");
+    const instances = JSON.parse(fileContent);
+
+    instances[containerName] = instances[containerName] || [];
+
+    return instances;
+}
+
+function getOlderInstance(containerName) {
+    const instances = getInstances(containerName);
+
+    return instances[containerName][0];
+}
+
+function getNewInstanceName(containerName) {
+    const currentDate = new Date();
+    const timestamp = currentDate.getTime();
+
+    return containerName + timestamp;
+}
+
+function saveNewInstance(containerName, newInstanceName) {
+    const instances = getInstances(containerName);
+
+    instances[containerName].push(newInstanceName);
+
+    writeFile("/etc/cd-utils/instances.json", instances);
+}
+
 function killInstance(parameters, done) {
-    const stringArguments = parameters.join(" ");
+    const oldestInstance = getOlderInstance(parameters.containerName);
+    if (!oldestInstance) return;
+
+    parameters.containerName = oldestInstance;
+    const stringArguments = Object.values(parameters).join(" ");
     console.log("Kill arguments:", stringArguments);
 
     exec("/usr/local/sbin/kill " + stringArguments, done);
 }
 
 function addInstance(parameters, internal, done) {
-    if (internal) return internalDeploy(parameters, done);
+    const containerName = parameters.containerName;
+    const newInstanceName = getNewInstanceName(parameters.containerName);
+    parameters.containerName = newInstanceName;
 
-    const stringArguments = parameters.join(" ");
+    if (internal) {
+        internalDeploy(parameters, done);
+        saveNewInstance(containerName, newInstanceName);
+    }
+
+    const stringArguments = Object.values(parameters).join(" ");
     console.log("Deploy arguments:", stringArguments);
 
     exec("/usr/local/sbin/deploy " + stringArguments, done);
+    saveNewInstance(containerName, newInstanceName);
 }
 
 function internalDeploy(parameters, done) {
-    const stringArguments = parameters.slice(0, -2).join(" ");
+    const stringArguments = Object.values(parameters).slice(0, -2).join(" ");
     console.log("Internal deploy arguments:", stringArguments);
 
     exec("/usr/local/sbin/internal_deploy " + stringArguments, done);
