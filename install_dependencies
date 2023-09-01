@@ -2,10 +2,7 @@
 
 apt update
 apt upgrade
-apt install ca-certificates curl gnupg
-apt install knockd
-apt install nodejs
-apt install iptables-persistent
+apt install -y ca-certificates curl gnupg knockd nodejs iptables-persistent
 
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -15,7 +12,7 @@ echo \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 apt update
-apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 nano /etc/default/knockd
 systemctl start knockd
