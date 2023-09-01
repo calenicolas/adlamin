@@ -1,0 +1,24 @@
+#!/bin/bash
+
+git reset --hard
+git pull
+
+cd iptables_utils
+./install.sh
+cd ..
+
+cd cd_utils
+./install.sh
+cd ..
+
+cd docker_utils
+./install.sh
+cd ..
+
+cd knock_utils
+./install.sh
+cd ..
+
+cd reverse_proxy
+./install.sh
+cd ..
