@@ -3,7 +3,7 @@ Description=Cd utils para deployar
 After=network.target
 
 [Timer]
-OnCalendar=*-*-* *:*:00
+OnCalendar=*-*-* *:*:00,30
 
 [Install]
 WantedBy=timers.target
