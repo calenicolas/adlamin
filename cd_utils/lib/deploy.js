@@ -20,9 +20,9 @@ function getParameters(jsonData) {
 
 function asyncRepeat(operation, iterationAmount, done, actualIteration = 0) {
     operation(() => {
-        actualIteration = actualIteration + 1;
-        if (actualIteration < iterationAmount) {
-            asyncRepeat(operation, iterationAmount, done, actualIteration)
+        const iteration = actualIteration + 1;
+        if (iteration < iterationAmount) {
+            asyncRepeat(operation, iterationAmount, done, iteration)
         } else {
             done();
         }
