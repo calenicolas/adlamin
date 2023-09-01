@@ -13,7 +13,6 @@ function getParameters(jsonData) {
     const proxyContainerName = jsonData.proxy_container_name;
     const serverName = jsonData.server_name;
     const internal = jsonData.internal || false;
-    const operation = jsonData.operation || "add";
 
     return {
         imageName, containerName, servicePort, containerNetwork, proxyContainerName, serverName
@@ -24,14 +23,15 @@ function deploy(jsonData, done = () => {}) {
     console.log("Deploying:", jsonData);
 
     const instancesAmount = jsonData.amount || 1;
+    const operation = jsonData.operation || "add";
     const parameters = getParameters(jsonData);
 
     for (let i = 0; i < instancesAmount; i++) {
-        runOperation(parameters, done)
+        runOperation(operation, parameters, done)
     }
 }
 
-function runOperation(parameters, done) {
+function runOperation(operation, parameters, done) {
     if (operation == "delete")
         return killInstance(parameters, done);
 
