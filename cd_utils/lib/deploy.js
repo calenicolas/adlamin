@@ -96,7 +96,8 @@ function replaceInstance(parameters, internal, done) {
     });
 }
 
-function killInstance(parameters, done) {
+function killInstance(originalParameters, done) {
+    const parameters = { ...originalParameters };
     const oldestInstance = getOlderInstance(parameters.containerName);
     if (!oldestInstance) return done();
 
@@ -108,7 +109,8 @@ function killInstance(parameters, done) {
     saveDeletedInstance(containerName, oldestInstance);
 }
 
-function addInstance(parameters, internal, done) {
+function addInstance(originalParameters, internal, done) {
+    const parameters = { ...originalParameters };
     const containerName = parameters.containerName;
     const newInstanceName = getNewInstanceName(parameters.containerName);
     parameters.containerName = newInstanceName;
