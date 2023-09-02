@@ -11,7 +11,7 @@ function remove_server_to_reverse_proxy() {
   local CONTAINER_IP="$4"
   local SERVICE_PORT="$5"
 
-  local CONF_PATH=/etc/reverse-proxy/conf.d/"$CONTAINER_NAME/"
+  local CONF_PATH=/etc/reverse-proxy/conf.d/"$CONTAINER_NAME"
 
   remove_upstream "$CONTAINER_IP" "$SERVICE_PORT" "$CONF_PATH/upstreams.json"
   generate_nginx_conf "$SERVER_NAME" "$URI" "$CONF_PATH/upstreams.json" > "$CONF_PATH/$SERVER_NAME.conf"

@@ -12,6 +12,7 @@ function create_reverse_proxy() {
   local PUBLIC_PORT="$7"
 
   local CONF_PATH="/etc/reverse-proxy/conf.d/$CONTAINER_NAME"
+  if [ -d "$CONF_PATH" ]; then rm -Rf $CONF_PATH; fi
   mkdir -p "$CONF_PATH"
 
   local EXTRA_OPTS="--mount type=bind,source=$CONF_PATH,target=/etc/nginx/conf.d"
