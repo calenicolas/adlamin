@@ -106,7 +106,7 @@ function killInstance(originalParameters, done) {
     console.log("Kill arguments:", stringArguments);
 
     exec("/usr/local/sbin/kill " + stringArguments, done);
-    saveDeletedInstance(containerName, oldestInstance);
+    saveDeletedInstance(originalParameters.containerName, oldestInstance);
 }
 
 function addInstance(originalParameters, internal, done) {
