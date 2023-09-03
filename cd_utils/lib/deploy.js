@@ -37,17 +37,19 @@ function deploy(jsonData, done = () => {}) {
     const internal = jsonData.internal || false;
     const parameters = getParameters(jsonData);
 
+    const newInstances = [];
+
     asyncRepeat((iterationDone) => {
-        runOperation(operation, internal, parameters, iterationDone)
+        runOperation(operation, internal, parameters, newInstances, iterationDone)
     }, instancesAmount, done);
 }
 
-function runOperation(operation, internal, parameters, done) {
+function runOperation(operation, internal, parameters, newInstances, done) {
     if (operation == "delete")
         return killInstance(parameters, done);
 
     if (operation == "replace")
-        return replaceInstance(parameters, internal, done);
+        return replaceInstance(parameters, internal, newInstances, done);
 
     addInstance(parameters, internal, done);
 }
@@ -90,16 +92,18 @@ function saveDeletedInstance(containerName, newInstanceName) {
     writeFile(instancesFileName, instances);
 }
 
-function replaceInstance(parameters, internal, done) {
-    addInstance(parameters, internal, () => {
-        killInstance(parameters, done);
+function replaceInstance(parameters, internal, newInstances, done) {
+    addInstance(parameters, internal, (newInstance) => {
+        newInstances.push(newInstance);
+        killInstance(parameters, done, newInstances);
     });
 }
 
-function killInstance(originalParameters, done) {
+function killInstance(originalParameters, done, newInstances = []) {
     const parameters = { ...originalParameters };
     const oldestInstance = getOlderInstance(parameters.containerName);
     if (!oldestInstance) return done();
+    if (newInstances.contains(oldestInstance)) return done();
 
     parameters.containerName = oldestInstance;
     const stringArguments = Object.values(parameters).join(" ");
