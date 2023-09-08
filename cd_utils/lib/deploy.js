@@ -103,7 +103,7 @@ function killInstance(originalParameters, done, newInstances = []) {
     const parameters = { ...originalParameters };
     const oldestInstance = getOlderInstance(parameters.containerName);
     if (!oldestInstance) return done();
-    if (newInstances.contains(oldestInstance)) return done();
+    if (newInstances.includes(oldestInstance)) return done();
 
     parameters.containerName = oldestInstance;
     const stringArguments = Object.values(parameters).join(" ");
