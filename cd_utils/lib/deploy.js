@@ -51,7 +51,7 @@ function runOperation(operation, internal, parameters, newInstances, done) {
     if (operation == "replace")
         return replaceInstance(parameters, internal, newInstances, done);
 
-    addInstance(parameters, internal, done);
+    addInstance(parameters, internal, () => done());
 }
 
 function getInstances(containerName) {
@@ -120,14 +120,14 @@ function addInstance(originalParameters, internal, done) {
     parameters.containerName = newInstanceName;
 
     if (internal) {
-        internalDeploy(parameters, done);
-        saveNewInstance(containerName, newInstanceName);
+        internalDeploy(parameters, () => done(newInstanceName));
+        return saveNewInstance(containerName, newInstanceName);
     }
 
     const stringArguments = Object.values(parameters).join(" ");
     console.log("Deploy arguments:", stringArguments);
 
-    exec("/usr/local/sbin/deploy " + stringArguments, done);
+    exec("/usr/local/sbin/deploy " + stringArguments, () => done(newInstanceName));
     saveNewInstance(containerName, newInstanceName);
 }
 
