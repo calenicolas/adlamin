@@ -57,4 +57,4 @@ cd adlamin
 
 # Implementacion en Actions de github
 
-Para deployar en cada push a master, o configuraciones similares, pueden basarse [en este repositorio](https://github.com/calenicolas/adlamin-pipeline-example)https://github.com/calenicolas/adlamin-pipeline-example.
+Para deployar en cada push a master, o configuraciones similares, pueden basarse [en este repositorio](https://github.com/calenicolas/adlamin-pipeline-example)
