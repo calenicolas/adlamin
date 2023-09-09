@@ -23,11 +23,11 @@ La herramienta se compone por **2 servicios**:
 
 ## Port Knocking
 
-Para evitar que nuestro registro de imagenes sea accedido por personas externas, vamos a usar port knocking.
-Mediane port-knocking 
+Para evitar que nuestro registro de imagenes o el servicio para desplegar sea accedido por personas externas, vamos a usar port knocking.
+La secuencia de cada servicio se genera al momento de la instalacion (TODO).
 
 ## VPN
-En un futuro
+TODO.
 
 # Instalacion
 
@@ -36,3 +36,26 @@ git clone [repo url]
 cd adlamin
 ./install
 ```
+
+# Despliegues
+
+## Publicos
+
+```json
+{
+  "image_name":"nombre de la imagen",
+  "container_name":"nombre de la app",
+  "service_port":"puerto que expone el servicio",
+  "container_network":"nombre de la app",
+  "proxy_container_name":"dmz",
+  "server_name":"nombre del dominio donde la app va a estar hosteada",
+  "operation": "replace", // puede ser add, kill o replace
+  "amount": 1 // cantidad de replicas
+}
+```
+
+## Internos
+
+# Implementacion en Actions de github
+
+Para deployar en cada push a master, o configuraciones similares, pueden basarse [en este repositorio](https://github.com/calenicolas/adlamin-pipeline-example)https://github.com/calenicolas/adlamin-pipeline-example.
