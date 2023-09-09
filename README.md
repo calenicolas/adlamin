@@ -44,9 +44,8 @@ cd adlamin
 ```json
 {
   "image_name":"nombre de la imagen",
-  "container_name":"nombre de la app",
+  "app_name":"nombre de la app",
   "service_port":"puerto que expone el servicio",
-  "container_network":"nombre de la app",
   "proxy_container_name":"dmz",
   "server_name":"nombre del dominio donde la app va a estar hosteada",
   "operation": "replace", // puede ser add, kill o replace

@@ -7,14 +7,14 @@ const instancesFileName = "/root/deploy-service/deploy/instances.json";
 
 function getParameters(jsonData) {
     const imageName = jsonData.image_name;
-    const containerName = jsonData.container_name;
+    const appName = jsonData.app_name;
     const servicePort = jsonData.service_port;
-    const containerNetwork = jsonData.container_network.substring(0, 15);
+    const containerNetwork = appName.substring(0, 15);
     const proxyContainerName = jsonData.proxy_container_name;
     const serverName = jsonData.server_name;
 
     return {
-        imageName, containerName, servicePort, containerNetwork, proxyContainerName, serverName
+        imageName, appName, servicePort, containerNetwork, proxyContainerName, serverName
     };
 }
 

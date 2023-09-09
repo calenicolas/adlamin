@@ -1,8 +1,0 @@
-{
-  "image_name": "static",
-  "container_name": "static-test",
-  "service_port": 80,
-  "container_network": "static-test",
-  "proxy_container_name": "dmz",
-  "server_name": "reloco.com"
-}

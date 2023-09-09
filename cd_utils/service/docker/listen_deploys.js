@@ -42,9 +42,8 @@ function handlePostRequest(request, response) {
 function validateBody(jsonBody) {
     const requiredKeys = [
         "image_name",
-        "container_name",
+        "app_name",
         "service_port",
-        "container_network",
         "proxy_container_name",
         "server_name"
     ];
