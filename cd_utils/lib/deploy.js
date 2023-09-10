@@ -5,16 +5,38 @@ const writeFile = require('./write_file');
 
 const instancesFileName = "/root/deploy-service/deploy/instances.json";
 
+function deploy(jsonData, done = () => {}) {
+    console.log("Deploying:", jsonData);
+
+    const parameters = getParameters(jsonData);
+
+    const newInstances = [];
+    asyncRepeat((iterationDone) => {
+        runOperation(parameters, newInstances, iterationDone)
+    }, instancesAmount, done);
+}
+
 function getParameters(jsonData) {
     const imageName = jsonData.image_name;
-    const containerName = jsonData.app_name;
+    const appName = jsonData.app_name;
     const servicePort = jsonData.service_port;
-    const containerNetwork = containerName.substring(0, 15);
+    const containerNetwork = appName.substring(0, 15);
     const proxyContainerName = jsonData.proxy_container_name;
     const serverName = jsonData.server_name;
+    const amount = jsonData.amount || 1;
+    const operation = jsonData.operation || "add";
+    const internal = jsonData.internal || false;
 
     return {
-        imageName, containerName, servicePort, containerNetwork, proxyContainerName, serverName
+        imageName,
+        appName,
+        servicePort,
+        containerNetwork,
+        proxyContainerName,
+        serverName,
+        operation,
+        internal,
+        amount
     };
 }
 
@@ -29,113 +51,110 @@ function asyncRepeat(operation, iterationAmount, done, actualIteration = 0) {
     });
 }
 
-function deploy(jsonData, done = () => {}) {
-    console.log("Deploying:", jsonData);
+function runOperation(parameters, newInstances, done) {
+    const operation = parameters.operation;
+    const internal = parameters.internal;
 
-    const instancesAmount = jsonData.amount || 1;
-    const operation = jsonData.operation || "add";
-    const internal = jsonData.internal || false;
-    const parameters = getParameters(jsonData);
-
-    const newInstances = [];
-
-    asyncRepeat((iterationDone) => {
-        runOperation(operation, internal, parameters, newInstances, iterationDone)
-    }, instancesAmount, done);
-}
-
-function runOperation(operation, internal, parameters, newInstances, done) {
     if (operation == "delete")
         return killInstance(parameters, done);
 
     if (operation == "replace")
-        return replaceInstance(parameters, internal, newInstances, done);
+        return replaceInstance(parameters, newInstances, done);
 
     addInstance(parameters, internal, () => done());
 }
 
-function getInstances(containerName) {
-    const fileContent = readFile(instancesFileName, "{}");
-    const instances = JSON.parse(fileContent);
+function killInstance(parameters, done, newInstances = []) {
+    const oldestInstance = getOldestInstance(parameters.appName);
+    if (!oldestInstance) return done();
+    if (newInstances.includes(oldestInstance)) return done();
 
-    instances[containerName] = instances[containerName] || [];
+    const stringArguments = [
+        parameters.imageName,
+        oldestInstance,
+        parameters.servicePort,
+        parameters.containerNetwork,
+        parameters.proxyContainerName
+        parameters.serverName
+    ].join(" ");
+    console.log("Kill arguments:", stringArguments);
 
-    return instances;
+    exec("/usr/local/sbin/kill " + stringArguments, done);
+    saveDeletedInstance(parameters.appName, oldestInstance);
 }
 
-function getOlderInstance(containerName) {
-    const instances = getInstances(containerName);
+function addInstance(parameters, internal, done) {
+    const newInstanceName = getNewInstanceName(parameters.appName);
 
-    return instances[containerName][0];
+    if (internal) {
+        internalDeploy(parameters, newInstanceName, () => done(newInstanceName));
+        return saveNewInstance(parameters.appName, newInstanceName);
+    }
+
+    const stringArguments = [
+        parameters.imageName,
+        newInstanceName,
+        parameters.servicePort,
+        parameters.containerNetwork,
+        parameters.proxyContainerName
+        parameters.serverName
+    ].join(" ");
+    console.log("Deploy arguments:", stringArguments);
+
+    exec("/usr/local/sbin/deploy " + stringArguments, () => done(newInstanceName));
+    saveNewInstance(parameters.appName, newInstanceName);
 }
 
-function getNewInstanceName(containerName) {
-    const currentDate = new Date();
-    const timestamp = currentDate.getTime();
+function internalDeploy(parameters, newInstanceName, done) {
+    const stringArguments = [
+        parameters.imageName,
+        newInstanceName,
+        parameters.servicePort,
+        parameters.containerNetwork
+    ].join(" ");
+    console.log("Internal deploy arguments:", stringArguments);
 
-    return containerName + timestamp;
+    exec("/usr/local/sbin/internal_deploy " + stringArguments, done);
 }
 
-function saveNewInstance(containerName, newInstanceName) {
-    const instances = getInstances(containerName);
 
-    instances[containerName].push(newInstanceName);
-
-    writeFile(instancesFileName, instances);
-}
-
-function saveDeletedInstance(containerName, newInstanceName) {
-    const instances = getInstances(containerName);
-
-    instances[containerName].shift();
-
-    writeFile(instancesFileName, instances);
-}
-
-function replaceInstance(parameters, internal, newInstances, done) {
-    addInstance(parameters, internal, (newInstance) => {
+function replaceInstance(parameters, newInstances, done) {
+    addInstance(parameters, (newInstance) => {
         newInstances.push(newInstance);
         killInstance(parameters, done, newInstances);
     });
 }
 
-function killInstance(originalParameters, done, newInstances = []) {
-    const parameters = { ...originalParameters };
-    const oldestInstance = getOlderInstance(parameters.containerName);
-    if (!oldestInstance) return done();
-    if (newInstances.includes(oldestInstance)) return done();
-
-    parameters.containerName = oldestInstance;
-    const stringArguments = Object.values(parameters).join(" ");
-    console.log("Kill arguments:", stringArguments);
-
-    exec("/usr/local/sbin/kill " + stringArguments, done);
-    saveDeletedInstance(originalParameters.containerName, oldestInstance);
+function getOldestInstance(appName) {
+    const instances = getInstances(appName);
+    return appInstances[0] || null;
 }
 
-function addInstance(originalParameters, internal, done) {
-    const parameters = { ...originalParameters };
-    const containerName = parameters.containerName;
-    const newInstanceName = getNewInstanceName(parameters.containerName);
-    parameters.containerName = newInstanceName;
+function getInstances(appName) {
+    const fileContent = readFile(instancesFileName, "{}");
+    const instances = JSON.parse(fileContent);
 
-    if (internal) {
-        internalDeploy(parameters, () => done(newInstanceName));
-        return saveNewInstance(containerName, newInstanceName);
-    }
-
-    const stringArguments = Object.values(parameters).join(" ");
-    console.log("Deploy arguments:", stringArguments);
-
-    exec("/usr/local/sbin/deploy " + stringArguments, () => done(newInstanceName));
-    saveNewInstance(containerName, newInstanceName);
+    return instances[appName] || [];
 }
 
-function internalDeploy(parameters, done) {
-    const stringArguments = Object.values(parameters).slice(0, -2).join(" ");
-    console.log("Internal deploy arguments:", stringArguments);
+function getNewInstanceName(appName) {
+    const currentDate = new Date();
+    const timestamp = currentDate.getTime();
 
-    exec("/usr/local/sbin/internal_deploy " + stringArguments, done);
+    return appName + timestamp;
+}
+
+function saveNewInstance(appName, newInstanceName) {
+    const instances = getInstances(appName);
+
+    instances[appName].push(newInstanceName);
+
+    writeFile(instancesFileName, instances);
+}
+
+function saveDeletedInstance(appName, deletedInstanceName) {
+    const instances = getInstances(appName).filter((instance) => instance != deletedInstanceName);
+    writeFile(instancesFileName, instances);
 }
 
 module.exports = deploy;

@@ -48,7 +48,7 @@ cd adlamin
   "service_port":"puerto que expone el servicio",
   "proxy_container_name":"dmz",
   "server_name":"nombre del dominio donde la app va a estar hosteada",
-  "operation": "replace", // puede ser add, kill o replace
+  "operation": "replace", // puede ser add, delete o replace
   "amount": 1 // cantidad de replicas
 }
 ```
