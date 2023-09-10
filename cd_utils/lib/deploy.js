@@ -127,7 +127,7 @@ function replaceInstance(parameters, newInstances, done) {
 
 function getOldestInstance(appName) {
     const instances = getInstances(appName);
-    return appInstances[0] || null;
+    return instances[0] || null;
 }
 
 function getInstances(appName) {
