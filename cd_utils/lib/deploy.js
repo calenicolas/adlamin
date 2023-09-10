@@ -96,7 +96,7 @@ function addInstance(parameters, internal, done) {
         newInstanceName,
         parameters.servicePort,
         parameters.containerNetwork,
-        parameters.proxyContainerName
+        parameters.proxyContainerName,
         parameters.serverName
     ].join(" ");
     console.log("Deploy arguments:", stringArguments);
