@@ -13,7 +13,7 @@ function deploy(jsonData, done = () => {}) {
     const newInstances = [];
     asyncRepeat((iterationDone) => {
         runOperation(parameters, newInstances, iterationDone)
-    }, instancesAmount, done);
+    }, parameters.amount, done);
 }
 
 function getParameters(jsonData) {
