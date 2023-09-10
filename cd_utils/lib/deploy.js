@@ -74,7 +74,7 @@ function killInstance(parameters, done, newInstances = []) {
         oldestInstance,
         parameters.servicePort,
         parameters.containerNetwork,
-        parameters.proxyContainerName
+        parameters.proxyContainerName,
         parameters.serverName
     ].join(" ");
     console.log("Kill arguments:", stringArguments);
