@@ -83,10 +83,10 @@ function killInstance(parameters, done, newInstances = []) {
     saveDeletedInstance(parameters.appName, oldestInstance);
 }
 
-function addInstance(parameters, internal, done) {
+function addInstance(parameters, done) {
     const newInstanceName = getNewInstanceName(parameters.appName);
 
-    if (internal) {
+    if (parameters.internal) {
         internalDeploy(parameters, newInstanceName, () => done(newInstanceName));
         return saveNewInstance(parameters.appName, newInstanceName);
     }
@@ -147,7 +147,7 @@ function getNewInstanceName(appName) {
 function saveNewInstance(appName, newInstanceName) {
     const instances = getInstances(appName);
 
-    instances[appName].push(newInstanceName);
+    instances.push(newInstanceName);
 
     writeFile(instancesFileName, instances);
 }
