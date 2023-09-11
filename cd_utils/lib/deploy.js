@@ -137,6 +137,11 @@ function getInstances(appName) {
     return instances[appName] || [];
 }
 
+function getAllInstances() {
+    const fileContent = readFile(instancesFileName, "{}");
+    return JSON.parse(fileContent);
+}
+
 function getNewInstanceName(appName) {
     const currentDate = new Date();
     const timestamp = currentDate.getTime();
@@ -145,16 +150,18 @@ function getNewInstanceName(appName) {
 }
 
 function saveNewInstance(appName, newInstanceName) {
-    const instances = getInstances(appName);
-
-    instances.push(newInstanceName);
+    const instances = getAllInstances();
+    instances[appName] == instances[appName] || [];
+    instances[appName].push(newInstanceName);
 
     writeFile(instancesFileName, instances);
 }
 
 function saveDeletedInstance(appName, deletedInstanceName) {
-    const instances = getInstances(appName).filter((instance) => instance != deletedInstanceName);
-    writeFile(instancesFileName, instances);
+    const instances = getAllInstances();
+    instances[appName] == instances[appName] || [];
+    const updatedInstances = instances[appName].filter((instance) => instance != deletedInstanceName);
+    writeFile(instancesFileName, updatedInstances);
 }
 
 module.exports = deploy;
