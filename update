@@ -22,3 +22,7 @@ cd ..
 cd reverse_proxy
 ./install.sh
 cd ..
+
+cd monitor_utils
+./install.sh
+cd ..
