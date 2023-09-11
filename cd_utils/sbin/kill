@@ -1,6 +1,8 @@
 #!/bin/bash
+
 . /usr/local/lib/reverse_proxy/remove_server_to_reverse_proxy.sh
 . /usr/local/lib/docker_utils/get_container_ip.sh
+. /usr/local/lib/monitor_utils/remove_prometheus_target.sh
 
 function kill() {
   local IMAGE_NAME=$1
@@ -14,6 +16,7 @@ function kill() {
   CONTAINER_IP=$(get_container_ip "$CONTAINER_NAME" "internal")
 
   remove_server_to_reverse_proxy "$PROXY_CONTAINER_NAME" "$SERVER_NAME" "/" "$CONTAINER_IP" "$SERVICE_PORT"
+  remove_prometheus_target "$CONTAINER_IP" "$SERVER_NAME"
   docker kill $CONTAINER_NAME
 }
 

@@ -3,6 +3,7 @@
 . /usr/local/lib/docker_utils/git_docker_build.sh
 . /usr/local/lib/docker_utils/internal_docker_run.sh
 . /usr/local/lib/docker_utils/get_container_ip.sh
+. /usr/local/lib/monitor_utils/add_prometheus_target.sh
 
 function run_deploy() {
   local IMAGE_NAME=$1
@@ -21,6 +22,8 @@ function run_deploy() {
     local FULL_IMAGE_NAME="$DOCKER_REGISTRY_IP:5000/$IMAGE_NAME"
     internal_docker_run "$FULL_IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK"
   fi
+
+  add_prometheus_target "$CONTAINER_IP" "$SERVER_NAME"
 }
 
 run_deploy "$1" "$2" "$3" "$4" "$5"

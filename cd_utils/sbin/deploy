@@ -1,8 +1,10 @@
 #!/bin/bash
+
 . /usr/local/lib/reverse_proxy/add_server_to_reverse_proxy.sh
 . /usr/local/lib/docker_utils/git_docker_build.sh
 . /usr/local/lib/docker_utils/internal_docker_run.sh
 . /usr/local/lib/docker_utils/get_container_ip.sh
+. /usr/local/lib/monitor_utils/add_prometheus_target.sh
 
 function run_deploy() {
   local IMAGE_NAME=$1
