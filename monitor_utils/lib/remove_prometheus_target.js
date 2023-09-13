@@ -15,7 +15,7 @@ function removePrometheusTarget(serviceIp, serviceName, prometheusConfigFile) {
     actualConfig["scrape_configs"] = actualConfig["scrape_configs"].map((config) => {
         if (config.job_name != serviceName) return config;
 
-        config.static_configs[0].targets = config.static_configs[0].targets.filter((target) => target != serviceIp);
+        config.static_configs[0].targets = config.static_configs[0].targets.filter((target) => target != serviceIp + ":9001");
 
         return config
     });
