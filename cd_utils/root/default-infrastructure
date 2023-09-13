@@ -30,3 +30,4 @@ function create_prometheus_server() {
 create_reverse_proxy "dmz" "80" "dmz" "nginx" "tcp" "${PUBLIC_INTERFACE}" "80"
 create_docker_registry
 create_deploy_service
+create_prometheus_server
