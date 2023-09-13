@@ -27,6 +27,10 @@ function create_prometheus_server() {
   internal_docker_run "prom/prometheus" "prometheus" "9090" "internal" "-v /etc/adlamin/monitor/prometheus.yml:/etc/prometheus/prometheus.yml -v /etc/adlamin/monitor/data:/prometheus"
 }
 
+function create_grafana_server() {
+  secure_docker_run "grafana" "3000" "internal" "grafana/grafana" "${PUBLIC_INTERFACE}" "2003" "7007 8008 9009" "tcp"
+}
+
 create_reverse_proxy "dmz" "80" "dmz" "nginx" "tcp" "${PUBLIC_INTERFACE}" "80"
 create_docker_registry
 create_deploy_service
