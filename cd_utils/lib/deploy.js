@@ -1,7 +1,7 @@
 'use strict'
-const { exec } = require('child_process');
 const readFile = require('./read_file');
 const writeFile = require('./write_file');
+const runCommand = require('./run_command');
 
 const instancesFileName = "/root/deploy-service/deploy/instances.json";
 
@@ -79,7 +79,7 @@ function killInstance(parameters, done, newInstances = []) {
     ].join(" ");
     console.log("Kill arguments:", stringArguments);
 
-    exec("/usr/local/sbin/kill " + stringArguments, done);
+    runCommand("/usr/local/sbin/kill " + stringArguments, done);
     saveDeletedInstance(parameters.appName, oldestInstance);
 }
 
@@ -101,7 +101,7 @@ function addInstance(parameters, done) {
     ].join(" ");
     console.log("Deploy arguments:", stringArguments);
 
-    exec("/usr/local/sbin/deploy " + stringArguments, () => done(newInstanceName));
+    runCommand("/usr/local/sbin/deploy " + stringArguments, () => done(newInstanceName));
     saveNewInstance(parameters.appName, newInstanceName);
 }
 
@@ -114,7 +114,7 @@ function internalDeploy(parameters, newInstanceName, done) {
     ].join(" ");
     console.log("Internal deploy arguments:", stringArguments);
 
-    exec("/usr/local/sbin/internal_deploy " + stringArguments, done);
+    runCommand("/usr/local/sbin/internal_deploy " + stringArguments, done);
 }
 
 

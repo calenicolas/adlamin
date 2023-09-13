@@ -13,8 +13,8 @@ function create_docker_registry() {
 }
 
 function create_deploy_service() {
-    mkdir -p /root/deploy-service/deploy/pending
-    mkdir -p /root/deploy-service/deploy/done
+    mkdir -p /root/deploy-service/deploy/pending || true
+    mkdir -p /root/deploy-service/deploy/done || true
     rm /root/deploy-service/deploy/instances.json
 
     EXTRA_OPTS="--mount type=bind,source=/root/deploy-service/deploy/pending,target=/etc/pending-deploys"
@@ -22,6 +22,8 @@ function create_deploy_service() {
 }
 
 function create_prometheus_server() {
+  rm /etc/adlamin/monitor/prometheus.yml || true
+  cp /etc/adlamin/monitor/empty_prometheus.yml /etc/adlamin/monitor/prometheus.yml
   internal_docker_run "prom/prometheus" "prometheus" "9090" "internal" "-v /etc/adlamin/monitor/prometheus.yml:/etc/prometheus/prometheus.yml -v /etc/adlamin/monitor/data:/prometheus"
 }
 
