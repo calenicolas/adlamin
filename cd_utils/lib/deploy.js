@@ -151,7 +151,7 @@ function getNewInstanceName(appName) {
 
 function saveNewInstance(appName, newInstanceName) {
     const instances = getAllInstances();
-    instances[appName] == instances[appName] || [];
+    instances[appName] = instances[appName] || [];
     instances[appName].push(newInstanceName);
 
     writeFile(instancesFileName, instances);
@@ -159,7 +159,7 @@ function saveNewInstance(appName, newInstanceName) {
 
 function saveDeletedInstance(appName, deletedInstanceName) {
     const instances = getAllInstances();
-    instances[appName] == instances[appName] || [];
+    instances[appName] = instances[appName] || [];
     const updatedInstances = instances[appName].filter((instance) => instance != deletedInstanceName);
     writeFile(instancesFileName, updatedInstances);
 }
