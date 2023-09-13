@@ -10,7 +10,8 @@ function run_deploy() {
   local CONTAINER_NAME=$2
   local SERVICE_PORT=$3
   local CONTAINER_NETWORK=$4
-  local GIT_REPO=$5
+  local SERVICE_NAME=$5
+  local GIT_REPO=$6
 
   if [ -n "$GIT_REPO" ]
   then
@@ -23,7 +24,7 @@ function run_deploy() {
     internal_docker_run "$FULL_IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK"
   fi
 
-  add_prometheus_target "$CONTAINER_IP" "$SERVER_NAME"
+  add_prometheus_target "$CONTAINER_IP" "$SERVICE_NAME"
 }
 
-run_deploy "$1" "$2" "$3" "$4" "$5"
+run_deploy "$1" "$2" "$3" "$4" "$5" "$6"

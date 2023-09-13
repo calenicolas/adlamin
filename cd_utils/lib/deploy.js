@@ -110,7 +110,8 @@ function internalDeploy(parameters, newInstanceName, done) {
         parameters.imageName,
         newInstanceName,
         parameters.servicePort,
-        parameters.containerNetwork
+        parameters.containerNetwork,
+        parameters.appName
     ].join(" ");
     console.log("Internal deploy arguments:", stringArguments);
 

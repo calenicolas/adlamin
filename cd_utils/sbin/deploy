@@ -28,6 +28,7 @@ function run_deploy() {
     CONTAINER_IP=$(internal_docker_run "$FULL_IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK")
   fi
   add_server_to_reverse_proxy "$PROXY_CONTAINER_NAME" "$SERVER_NAME" "/" "$CONTAINER_IP" "$SERVICE_PORT"
+  add_prometheus_target "$CONTAINER_IP" "$SERVER_NAME"
 }
 
 run_deploy "$1" "$2" "$3" "$4" "$5" "$6" "$7"
