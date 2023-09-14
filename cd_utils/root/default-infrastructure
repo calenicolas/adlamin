@@ -46,7 +46,7 @@ function create_deploy_service() {
 function create_prometheus_server() {
   rm /etc/adlamin/monitor/prometheus.yml || true
   cp /etc/adlamin/monitor/empty_prometheus.yml /etc/adlamin/monitor/prometheus.yml
-  docker_run "prom/prometheus" "prometheus" "9090" "internal" "-v /etc/adlamin/monitor/prometheus.yml:/etc/prometheus/prometheus.yml -v /etc/adlamin/monitor/data:/prometheus"
+  docker_run "prometheus" "9090" "internal" "prom/prometheus" "-v /etc/adlamin/monitor/prometheus.yml:/etc/prometheus/prometheus.yml -v /etc/adlamin/monitor/data:/prometheus"
 }
 
 function create_grafana_server() {
