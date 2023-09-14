@@ -1,10 +1,12 @@
 #!/bin/bash
 
+./install_dependencies
+
 cd iptables_utils
 ./install.sh
 cd ..
 
-./install_dependencies
+./configure_network
 
 cd cd_utils
 ./install.sh

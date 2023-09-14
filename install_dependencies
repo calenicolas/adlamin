@@ -17,26 +17,3 @@ apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker
 nano /etc/default/knockd
 systemctl start knockd
 systemctl enable knockd
-
-iptables -F INPUT
-iptables -F OUTPUT
-iptables -F FORWARD
-iptables -F DOCKER
-iptables -F DOCKER-ISOLATION-STAGE-1
-iptables -F DOCKER-ISOLATION-STAGE-2
-iptables -F DOCKER-USER
-iptables -F -t nat
-iptables -X DOCKER
-iptables -X DOCKER-ISOLATION-STAGE-1
-iptables -X DOCKER-ISOLATION-STAGE-2
-iptables -X DOCKER-USER
-
-echo '{"iptables": false}' > /etc/docker/daemon.json
-
-iptables-allow_server
-
-iptables-save > /etc/iptables/rules.v4
-iptables-restore < /etc/iptables/rules.v4
-netfilter-persistent reload
-
-sysctl -p /etc/sysctl.conf

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-. /usr/local/lib/docker_utils/internal_docker_run.sh
 . /usr/local/lib/docker_utils/docker_run.sh
 . /usr/local/lib/iptables_utils/allow_client.sh
 . /usr/local/lib/reverse_proxy/create_reverse_proxy.sh
