@@ -1,5 +1,16 @@
 #!/bin/bash
 
+INSTALLED_DEPENDENCIES_FILE="installed_dependencies.json"
+INSTALLED_DEPENDENCIES="false"
+
+if [ -e "$INSTALLED_DEPENDENCIES_FILE" ]; then
+  INSTALLED_DEPENDENCIES=$(cat "$INSTALLED_DEPENDENCIES_FILE")
+else
+
+if [ "$INSTALLED_DEPENDENCIES" = "true" ]; then
+  return
+else
+
 apt update -y
 apt upgrade -y
 apt install -y ca-certificates curl gnupg knockd npm nodejs iptables-persistent
@@ -17,3 +28,5 @@ apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker
 nano /etc/default/knockd
 systemctl start knockd
 systemctl enable knockd
+
+echo "true" > $INSTALLED_DEPENDENCIES_FILE
