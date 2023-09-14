@@ -13,19 +13,22 @@ function run_deploy() {
   local CONTAINER_NETWORK=$4
   local PROXY_CONTAINER_NAME=$5
   local SERVER_NAME=$6
-  local GIT_REPO=$7
+  local MEMORY=${7:-"100m"}
+  local CPU=${8:-".1"}
+  local GIT_REPO=$9
 
   local CONTAINER_IP
+  local RESOURCES="--memory=$MEMORY --cpus=$CPU"
 
   if [ -n "$GIT_REPO" ]
   then
     git_docker_build "$GIT_REPO" "$IMAGE_NAME"
-    CONTAINER_IP=$(internal_docker_run "$IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK")
+    CONTAINER_IP=$(internal_docker_run "$IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK" "$RESOURCES")
   else
     local DOCKER_REGISTRY_IP
     DOCKER_REGISTRY_IP=$(get_container_ip "registry" "internal")
     local FULL_IMAGE_NAME="$DOCKER_REGISTRY_IP:5000/$IMAGE_NAME"
-    CONTAINER_IP=$(internal_docker_run "$FULL_IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK")
+    CONTAINER_IP=$(internal_docker_run "$FULL_IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK" "$RESOURCES")
   fi
   add_server_to_reverse_proxy "$PROXY_CONTAINER_NAME" "$SERVER_NAME" "/" "$CONTAINER_IP" "$SERVICE_PORT"
   add_prometheus_target "$CONTAINER_IP" "$SERVER_NAME"

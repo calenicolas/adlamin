@@ -26,6 +26,8 @@ function getParameters(jsonData) {
     const amount = jsonData.amount || 1;
     const operation = jsonData.operation || "add";
     const internal = jsonData.internal || false;
+    const memory = jsonData.memory || "100m";
+    const cpu = jsonData.cpu || ".1";
 
     return {
         imageName,
@@ -36,7 +38,9 @@ function getParameters(jsonData) {
         serverName,
         operation,
         internal,
-        amount
+        amount,
+        memory,
+        cpu
     };
 }
 
@@ -97,7 +101,9 @@ function addInstance(parameters, done) {
         parameters.servicePort,
         parameters.containerNetwork,
         parameters.proxyContainerName,
-        parameters.serverName
+        parameters.serverName,
+        parameters.memory,
+        parameters.cpu
     ].join(" ");
     console.log("Deploy arguments:", stringArguments);
 
@@ -111,7 +117,9 @@ function internalDeploy(parameters, newInstanceName, done) {
         newInstanceName,
         parameters.servicePort,
         parameters.containerNetwork,
-        parameters.appName
+        parameters.appName,
+        parameters.memory,
+        parameters.cpu
     ].join(" ");
     console.log("Internal deploy arguments:", stringArguments);
 

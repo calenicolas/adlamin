@@ -11,7 +11,9 @@ function run_deploy() {
   local SERVICE_PORT=$3
   local CONTAINER_NETWORK=$4
   local SERVICE_NAME=$5
-  local GIT_REPO=$6
+  local MEMORY=${6:-"100m"}
+  local CPU=${7:-".1"}
+  local GIT_REPO=$8
 
   if [ -n "$GIT_REPO" ]
   then
@@ -21,7 +23,8 @@ function run_deploy() {
     local DOCKER_REGISTRY_IP
     DOCKER_REGISTRY_IP=$(get_container_ip "registry" "registry")
     local FULL_IMAGE_NAME="$DOCKER_REGISTRY_IP:5000/$IMAGE_NAME"
-    internal_docker_run "$FULL_IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK"
+    local RESOURCES="--memory=$MEMORY --cpus=$CPU"
+    internal_docker_run "$FULL_IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK" "$RESOURCES"
   fi
 
   add_prometheus_target "$CONTAINER_IP" "$SERVICE_NAME"
