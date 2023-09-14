@@ -12,15 +12,14 @@ function secure_docker_run() {
   local SEQUENCE="$7"
   local PROTOCOL="$8"
   local EXTRA_OPTS="$9"
+  local DEFAULT_OPEN_COMMAND="/usr/local/sbin/iptables-allow_forward_to_server $PROTOCOL $PUBLIC_INTERFACE $PUBLIC_PORT %IP% $CONTAINER_IP $SERVICE_PORT"
+  local DEFAULT_CLOSE_COMMAND="/usr/local/sbin/iptables-deny_forward_to_server $PROTOCOL $PUBLIC_INTERFACE $PUBLIC_PORT %IP% $CONTAINER_IP $SERVICE_PORT"
+  local OPEN_COMMAND=${10:-$DEFAULT_OPEN_COMMAND}
+  local CLOSE_COMMAND=${11:-$DEFAULT_CLOSE_COMMAND}
 
   CONTAINER_IP=$(docker_run "$CONTAINER_NAME" "$SERVICE_PORT" "$INTERNAL_NETWORK" "$IMAGE_NAME" "$EXTRA_OPTS")
 
-  OPEN_COMMAND="/usr/local/sbin/iptables-allow_forward_to_server $PROTOCOL $PUBLIC_INTERFACE $PUBLIC_PORT %IP% $CONTAINER_IP $SERVICE_PORT"
-  CLOSE_COMMAND="/usr/local/sbin/iptables-deny_forward_to_server $PROTOCOL $PUBLIC_INTERFACE $PUBLIC_PORT %IP% $CONTAINER_IP $SERVICE_PORT"
-
-  KNOCK_RULES=$(gen_knock_rules "$CONTAINER_NAME" "$SEQUENCE" "$OPEN_COMMAND" "$CLOSE_COMMAND")
-
-  echo "$KNOCK_RULES" >> /etc/knockd.conf
+  gen_knock_rules "$CONTAINER_NAME" "$SEQUENCE" "$OPEN_COMMAND" "$CLOSE_COMMAND"
 
   systemctl restart knockd
 }
