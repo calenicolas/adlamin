@@ -1,0 +1,20 @@
+#!/bin/bash
+
+. /usr/local/lib/reverse_proxy/generate_nginx_conf.sh
+. /usr/local/lib/reverse_proxy/remove_nginx_client.sh
+
+function remove_client() {
+  local CONTAINER_NAME=$1
+  local CONTAINER_IP=$2
+  local SERVICE_PORT=$3
+  local SERVER_NAME=$4
+  local URI="/"
+  local CLIENT_IP=$5
+
+  local CONF_PATH=/etc/reverse-proxy/conf.d/"$CONTAINER_NAME/"
+
+  remove_nginx_client "$CLIENT_IP" "$CONF_PATH/clients.json"
+  generate_nginx_conf "$SERVER_NAME" "$URI" "$CONF_PATH/upstreams.json" "$CONF_PATH/clients.json" > "$CONF_PATH/$SERVER_NAME.conf"
+
+  docker exec "$CONTAINER_NAME" nginx -s reload
+}

@@ -27,6 +27,4 @@ configuration["close" + appName] = {
     "tcpflags": "syn"
 }
 
-console.log(configuration);
-
 fs.writeFileSync(knockdConfFile, ini.stringify(configuration));

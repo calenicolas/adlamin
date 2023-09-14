@@ -12,15 +12,21 @@ function run_deploy() {
   local CONTAINER_NETWORK=$4
   local PROXY_CONTAINER_NAME=$5
   local SERVER_NAME=$6
-  local MEMORY=${7:-"100m"}
-  local CPU=${8:-".1"}
+  local SEQUENCE=$7
+  local MEMORY=${8:-"100m"}
+  local CPU=${9:-".1"}
   local RESOURCES="--memory=$MEMORY --cpus=$CPU"
 
   local DOCKER_REGISTRY_IP=$(get_container_ip "registry" "internal")
   local FULL_IMAGE_NAME="$DOCKER_REGISTRY_IP:5000/$IMAGE_NAME"
   local CONTAINER_IP=$(internal_docker_run "$FULL_IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK" "$RESOURCES")
-  add_server_to_reverse_proxy "$PROXY_CONTAINER_NAME" "$SERVER_NAME" "/" "$CONTAINER_IP" "$SERVICE_PORT"
+  local OPEN_COMMAND="/usr/local/sbin/add-client $CONTAINER_NAME $CONTAINER_IP $SERVICE_PORT $SERVER_NAME %IP%"
+  local CLOSE_COMMAND="/usr/local/sbin/remove-client $CONTAINER_NAME $CONTAINER_IP $SERVICE_PORT $SERVER_NAME %IP%"
+
+  gen_knock_rules "$CONTAINER_NAME" "$SEQUENCE" "$OPEN_COMMAND" "$CLOSE_COMMAND"
+
+  systemctl restart knockd
   add_prometheus_target "$CONTAINER_IP" "$SERVER_NAME"
 }
 
-run_deploy "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8"
+run_deploy "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"

@@ -7,8 +7,8 @@ const name = args[0];
 const serverName = args[1];
 const location = args[2];
 const upstreamsFile = args[3];
-const templatePath = args[4];
-const clientsFile = args[5] || "non-existent";
+const clientsFile = args[4];
+const templatePath = args[5];
 
 const upstreamsFileContent = readFile(upstreamsFile, "[]");
 const clientsFileContent = readFile(clientsFile, '["all"]');

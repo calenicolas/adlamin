@@ -1,11 +1,33 @@
 #!/bin/bash
 
-. /usr/local/lib/docker_utils/secure_docker_run.sh
 . /usr/local/lib/docker_utils/internal_docker_run.sh
+. /usr/local/lib/docker_utils/docker_run.sh
 . /usr/local/lib/iptables_utils/allow_client.sh
 . /usr/local/lib/reverse_proxy/create_reverse_proxy.sh
+. /usr/local/lib/knock_utils/gen_knock_rules.sh
 
 PUBLIC_INTERFACE="eth0"
+
+function secure_docker_run() {
+  local CONTAINER_NAME="$1"
+  local SERVICE_PORT="$2"
+  local INTERNAL_NETWORK="$3"
+  local IMAGE_NAME="$4"
+  local PUBLIC_NETWORK="$5"
+  local PUBLIC_PORT="$6"
+  local SEQUENCE="$7"
+  local PROTOCOL="$8"
+  local EXTRA_OPTS="$9"
+
+  local CONTAINER_IP=$(docker_run "$CONTAINER_NAME" "$SERVICE_PORT" "$INTERNAL_NETWORK" "$IMAGE_NAME" "$EXTRA_OPTS")
+
+  local OPEN_COMMAND="/usr/local/sbin/iptables-allow_forward_to_server $PROTOCOL $PUBLIC_NETWORK $PUBLIC_PORT %IP% $CONTAINER_IP $SERVICE_PORT"
+  local CLOSE_COMMAND="/usr/local/sbin/iptables-deny_forward_to_server $PROTOCOL $PUBLIC_NETWORK $PUBLIC_PORT %IP% $CONTAINER_IP $SERVICE_PORT"
+
+  gen_knock_rules "$CONTAINER_NAME" "$SEQUENCE" "$OPEN_COMMAND" "$CLOSE_COMMAND"
+
+  systemctl restart knockd
+}
 
 function create_docker_registry() {
   secure_docker_run "registry" "5000" "registry" "registry:2" "${PUBLIC_INTERFACE}" "2001" "1001 2002 3003" "tcp"
@@ -24,7 +46,7 @@ function create_deploy_service() {
 function create_prometheus_server() {
   rm /etc/adlamin/monitor/prometheus.yml || true
   cp /etc/adlamin/monitor/empty_prometheus.yml /etc/adlamin/monitor/prometheus.yml
-  internal_docker_run "prom/prometheus" "prometheus" "9090" "internal" "-v /etc/adlamin/monitor/prometheus.yml:/etc/prometheus/prometheus.yml -v /etc/adlamin/monitor/data:/prometheus"
+  docker_run "prom/prometheus" "prometheus" "9090" "internal" "-v /etc/adlamin/monitor/prometheus.yml:/etc/prometheus/prometheus.yml -v /etc/adlamin/monitor/data:/prometheus"
 }
 
 function create_grafana_server() {
