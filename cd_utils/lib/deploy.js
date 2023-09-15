@@ -65,7 +65,7 @@ function runOperation(parameters, newInstances, done) {
     if (operation == "replace")
         return replaceInstance(parameters, newInstances, done);
 
-    addInstance(parameters, internal, () => done());
+    addInstance(parameters, () => done());
 }
 
 function killInstance(parameters, done, newInstances = []) {
