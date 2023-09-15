@@ -169,8 +169,8 @@ function saveNewInstance(appName, newInstanceName) {
 function saveDeletedInstance(appName, deletedInstanceName) {
     const instances = getAllInstances();
     instances[appName] = instances[appName] || [];
-    const updatedInstances = instances[appName].filter((instance) => instance != deletedInstanceName);
-    writeFile(instancesFileName, updatedInstances);
+    instances[appName] = instances[appName].filter((instance) => instance != deletedInstanceName);
+    writeFile(instancesFileName, instances);
 }
 
 module.exports = deploy;
