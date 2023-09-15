@@ -25,7 +25,7 @@ function addPrometheusTarget(serviceIp, serviceName, prometheusConfigFile) {
 
     if (!updated) {
         newServiceConfig.static_configs[0].targets.push(serviceIp + ":9001");
-        actualConfig["scrape_configs"][0].push(newServiceConfig);
+        actualConfig["scrape_configs"].push(newServiceConfig);
     }
 
     fs.writeFileSync(prometheusConfigFile, YAML.stringify(actualConfig));
