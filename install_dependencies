@@ -9,7 +9,7 @@ else
 
 if [ "$INSTALLED_DEPENDENCIES" = "true" ]; then
   return
-else
+fi
 
 apt update -y
 apt upgrade -y
