@@ -39,7 +39,7 @@ function create_deploy_service() {
     rm /root/deploy-service/deploy/instances.json
 
     EXTRA_OPTS="--mount type=bind,source=/root/deploy-service/deploy/pending,target=/etc/pending-deploys"
-    secure_docker_run "deploy-service" "8080" "deploy_service" "deploy-service" "${PUBLIC_INTERFACE}" "2002" "4004 5005 6006" "tcp" "$EXTRA_OPTS"
+    secure_docker_run "deploy_service" "8080" "deploy_service" "deploy-service" "${PUBLIC_INTERFACE}" "2002" "4004 5005 6006" "tcp" "$EXTRA_OPTS"
 }
 
 function create_prometheus_server() {
