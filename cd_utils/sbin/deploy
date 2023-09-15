@@ -15,7 +15,6 @@ function run_deploy() {
   local MEMORY=${7:-"100m"}
   local CPU=${8:-".1"}
   local RESOURCES="--memory=$MEMORY --cpus=$CPU"
-
   local DOCKER_REGISTRY_IP=$(get_container_ip "registry" "internal")
   local FULL_IMAGE_NAME="$DOCKER_REGISTRY_IP:5000/$IMAGE_NAME"
   local CONTAINER_IP=$(internal_docker_run "$FULL_IMAGE_NAME" "$CONTAINER_NAME" "$SERVICE_PORT" "$CONTAINER_NETWORK" "$RESOURCES")
