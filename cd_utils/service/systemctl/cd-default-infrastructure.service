@@ -1,6 +1,7 @@
 [Unit]
 Description=Cd default infra (docker registry, dmz reverse proxy)
-After=network.target
+After=iptables.service
+Requires=iptables.service
 
 [Service]
 Type=oneshot
