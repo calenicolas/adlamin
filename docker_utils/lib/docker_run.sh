@@ -12,7 +12,7 @@ function docker_run() {
 
   local CONTAINER_ID
   local DOCKER_RUN_COMMAND="docker run -it --rm --name $CONTAINER_NAME -p 0:$SERVICE_PORT --network $NETWORK $EXTRA_OPTS -d $IMAGE_NAME"
-  docker pull $IMAGE_NAME
+  docker pull $IMAGE_NAME > /dev/null 2>&1
   CONTAINER_ID=$($DOCKER_RUN_COMMAND)
 
   get_container_ip "$CONTAINER_ID" "$NETWORK"
