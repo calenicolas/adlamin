@@ -1,8 +1,7 @@
 #!/bin/bash
 
-ARGUS=()
-
 gen_knock_rules() {
+  local ARGUS=()
   for ARG in "$@"
   do
     ARGUS+=("${ARG}")
