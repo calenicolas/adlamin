@@ -1,11 +1,12 @@
 [Unit]
 Description=Cd default infra (docker registry, dmz reverse proxy)
-After=iptables.service
-Requires=iptables.service
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 Type=oneshot
 User=root
+ExecStartPre=/bin/sleep 10
 ExecStart=/root/default-infrastructure
 
 [Install]
