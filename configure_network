@@ -1,4 +1,5 @@
 #!/bin/bash
+. /usr/local/lib/iptables_utils/allow_server.sh
 
 iptables -F INPUT
 iptables -F OUTPUT
@@ -15,7 +16,14 @@ iptables -X DOCKER-USER
 
 echo '{"iptables": false}' > /etc/docker/daemon.json
 
-iptables-allow_server
+echo -e "IMPORTANT: \nPlease specify SSH connection parameters. This will prevent ssh connection to be closed.\n"
+
+echo "Protocol:"
+read -r PROTOCOL
+echo "Port:"
+read -r PORT
+
+allow_server "$PROTOCOL" "$1" "$PORT"
 
 iptables-save > /etc/iptables/rules.v4
 iptables-restore < /etc/iptables/rules.v4

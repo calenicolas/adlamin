@@ -26,10 +26,13 @@ function secure_docker_run() {
   gen_knock_rules "$CONTAINER_NAME" "$SEQUENCE" "$OPEN_COMMAND" "$CLOSE_COMMAND"
 
   systemctl restart knockd
+
+  echo $CONTAINER_IP
 }
 
 function create_docker_registry() {
-  secure_docker_run "registry" "5000" "registry" "registry:2" "${PUBLIC_INTERFACE}" "2001" "1001 2002 3003" "tcp"
+  local REGISTRY_IP=$(secure_docker_run "registry" "5000" "registry" "registry:2" "${PUBLIC_INTERFACE}" "2001" "1001 2002 3003" "tcp")
+  jq --arg registry_ip "$REGISTRY_IP" '.["insecure-registries"] = [$registry_ip]' /etc/docker/daemon.json | tee /etc/docker/daemon.json
   allow_client "tcp" "internal" "5000"
 }
 

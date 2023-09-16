@@ -5,8 +5,9 @@
 cd iptables_utils
 ./install.sh
 cd ..
+read -p "Public network name: " PUBLIC_NETWORK
 
-./configure_network
+./configure_network $PUBLIC_NETWORK
 
 cd cd_utils
 ./install.sh
@@ -30,8 +31,6 @@ cd ..
 
 . /usr/local/lib/iptables_utils/allow_client.sh
 
-read -p "Public network name: " PUBLIC_NETWORK
-
 allow_client "tcp" "$PUBLIC_NETWORK" "80"
 allow_client "tcp" "$PUBLIC_NETWORK" "443"
 allow_client "udp" "$PUBLIC_NETWORK" "53"
@@ -45,4 +44,4 @@ sysctl -p
 
 clear
 
-echo "Listo. Solo queda agregar al daemon.json de docker la ip del registry. Si tu red por defecto no es eth0, edita /root/default-infrastructure"
+echo "Ready. If your default network is not actually eth0, edit /root/default-infrastructure"
