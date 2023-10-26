@@ -1,0 +1,10 @@
+#!/bin/bash
+
+PROMETHEUS_CONFIG_PATH="/etc/adlamin/monitor"
+PROMETHEUS_CONFIG="$PROMETHEUS_CONFIG_PATH/prometheus.yml"
+PROMETHEUS_EMTPY_CONFIG="$PROMETHEUS_CONFIG_PATH/empty_prometheus.yml"
+
+mkdir -p $PROMETHEUS_CONFIG_PATH/data || true
+cp prometheus.yml $PROMETHEUS_CONFIG
+cp prometheus.yml $PROMETHEUS_EMTPY_CONFIG
+chown -R 65534:65534 $PROMETHEUS_CONFIG_PATH || true

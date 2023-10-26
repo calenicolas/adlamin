@@ -1,0 +1,34 @@
+{
+  "prometheusConfiguration": {
+    "containerName": "prometheus",
+    "imageName": "prom/prometheus",
+    "networks": [{
+      "name": "internal"
+    }],
+    "servicePorts": ["9090"],
+    "mounts": [{
+      "type": "bind",
+      "source": "/etc/adlamin/monitor/prometheus.yml",
+      "target": "/etc/prometheus/prometheus.yml"
+    }],
+    "volumes": [{
+      "name": "prometheus-data",
+      "target": "/prometheus"
+    }],
+    "recipePath": "/etc/adlamin/monitor"
+  },
+  "grafanaConfiguration": {
+    "containerName": "grafana",
+    "imageName": "grafana/grafana",
+    "networks": [{
+      "name": "internal"
+    }],
+    "servicePorts": ["3000"]
+  },
+  "portKnockingConfiguration": {
+    "sequence": "7007 8008 9009",
+    "serviceProtocol": "tcp",
+    "publicPort": "2003",
+    "publicNetwork": "eth0"
+  }
+}

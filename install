@@ -1,0 +1,52 @@
+#!/bin/bash
+
+allow_client() {
+  local PROTOCOL=$1
+  local INTERFACE=$2
+  local PORT=$3
+
+  iptables -I INPUT -p "$PROTOCOL" -i "$INTERFACE" --sport "$PORT" -m state --state ESTABLISHED -j ACCEPT
+  iptables -I OUTPUT -p "$PROTOCOL" -o "$INTERFACE" --dport "$PORT" -m state --state NEW,ESTABLISHED -j ACCEPT
+}
+
+./install_dependencies
+
+read -p "Public network name: " PUBLIC_NETWORK
+
+mkdir /etc/adlamin
+jq -n \
+  --arg publicNetwork "${PUBLIC_NETWORK}" \
+  '{ "publicNetwork": $publicNetwork }' > /etc/adlamin/public_network.json
+./configure_network $PUBLIC_NETWORK
+
+cd kernel
+./install.sh
+cd ..
+
+cd cd_utils
+./install.sh
+cd ..
+
+cd knock_utils
+./install.sh
+cd ..
+
+cd monitor_utils
+./install.sh
+cd ..
+
+allow_client "tcp" "$PUBLIC_NETWORK" "80"
+allow_client "tcp" "$PUBLIC_NETWORK" "443"
+allow_client "udp" "$PUBLIC_NETWORK" "53"
+allow_client "udp" "$PUBLIC_NETWORK" "67"
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP
+iptables -P FORWARD DROP
+iptables-save > /etc/iptables/rules.v4
+
+nano /etc/sysctl.conf
+sysctl -p
+
+clear
+
+echo "Ready. If your default network is not actually eth0, edit /etc/adlamin/configuration files replacing public network parameter"

@@ -1,0 +1,19 @@
+{
+  "containerConfiguration": {
+    "containerName": "dmz",
+    "imageName": "nginx:latest",
+    "networks": [{
+      "name": "internal"
+    }],
+    "servicePorts": ["80"],
+    "mounts": [{
+      "type": "bind",
+      "source": "/etc/adlamin/configuration/nginx",
+      "target": "/etc/nginx/conf.d"
+    }]
+  },
+  "reverseProxyConfiguration": {
+    "publicPort": 80,
+    "publicNetwork": "eth0"
+  }
+}

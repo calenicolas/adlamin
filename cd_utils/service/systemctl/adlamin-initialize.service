@@ -1,0 +1,13 @@
+[Unit]
+Description=Initializer for adlamin deploy service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStartPre=/bin/sleep 10
+ExecStart=/usr/local/sbin/adlamin --action=initialize
+
+[Install]
+WantedBy=multi-user.target

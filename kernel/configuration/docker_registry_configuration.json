@@ -1,0 +1,18 @@
+{
+  "containerConfiguration": {
+    "containerName": "registry",
+    "imageName": "registry:2",
+    "networks": [{
+      "name": "registry",
+      "subnet": "172.22.0.0/16",
+      "ip": "172.22.0.3"
+    }],
+    "servicePorts": ["5000"]
+  },
+  "portKnockingConfiguration": {
+    "sequence": "1001 2002 3003",
+    "serviceProtocol": "tcp",
+    "publicPort": "2001",
+    "publicNetwork": "eth0"
+  }
+}

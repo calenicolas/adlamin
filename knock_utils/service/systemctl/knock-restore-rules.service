@@ -1,0 +1,11 @@
+[Unit]
+Description=Restore to default the knock rules
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/bin/cp /root/default.knockd.conf /etc/knockd.conf
+
+[Install]
+WantedBy=multi-user.target

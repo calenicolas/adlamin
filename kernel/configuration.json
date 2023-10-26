@@ -1,0 +1,12 @@
+{
+  "dockerRegistryConfigurationFile": "/etc/adlamin/configuration/docker_registry_configuration.json",
+  "dockerRegistryIpFile": "/etc/adlamin/configuration/docker_registry_ip.json",
+  "dockerDaemonConfigurationFile": "/etc/docker/daemon.json",
+  "deployServiceConfigurationFile": "/etc/adlamin/configuration/deploy_service_configuration.json",
+  "reverseProxyConfigurationFile": "/etc/adlamin/configuration/reverse_proxy_configuration.json",
+  "monitorConfigurationFile": "/etc/adlamin/configuration/monitor_configuration.json",
+  "knockdConfigurationFile": "/etc/knockd.conf",
+  "nginxRepositoriesPath": "/etc/adlamin/configuration/nginx",
+  "dockerContainersRepositoryPath": "/etc/adlamin/configuration/docker",
+  "prometheusConfigurationFile": "/etc/adlamin/monitor/prometheus.yml"
+}

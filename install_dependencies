@@ -1,0 +1,23 @@
+#!/bin/bash
+
+install_dependencies() {
+  apt update -y
+  apt upgrade -y
+  apt install -y jq ca-certificates curl gnupg knockd npm nodejs iptables-persistent
+
+  install -m 0755 -d /etc/apt/keyrings
+  curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  chmod a+r /etc/apt/keyrings/docker.gpg
+  echo \
+    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+    tee /etc/apt/sources.list.d/docker.list > /dev/null
+  apt update -y
+  apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  nano /etc/default/knockd
+  systemctl start knockd
+  systemctl enable knockd
+}
+
+install_dependencies
