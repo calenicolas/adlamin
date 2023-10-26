@@ -1,5 +1,6 @@
 #!/bin/bash
 
+chmod +x sbin/*
 cp -r sbin/* /usr/local/sbin
 mkdir /usr/local/lib/cd_utils || true
 cp -r lib/* /usr/local/lib/cd_utils
