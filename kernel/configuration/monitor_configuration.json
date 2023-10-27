@@ -8,8 +8,8 @@
     "servicePorts": ["9090"],
     "mounts": [{
       "type": "bind",
-      "source": "/etc/adlamin/monitor/prometheus.yml",
-      "target": "/etc/prometheus/prometheus.yml"
+      "source": "/etc/adlamin/monitor",
+      "target": "/etc/prometheus"
     }],
     "volumes": [{
       "name": "prometheus-data",
