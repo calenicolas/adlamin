@@ -24,7 +24,7 @@ function getParameters(jsonData) {
     const serverName = jsonData.server_name;
     const amount = jsonData.amount || 1;
     const operation = jsonData.operation || "add";
-    const internal = jsonData.internal || false;
+    const type = jsonData.type || "public";
     const memory = jsonData.memory || "100m";
     const cpu = jsonData.cpu || ".1";
 
@@ -36,7 +36,7 @@ function getParameters(jsonData) {
         proxyContainerName,
         serverName,
         operation,
-        internal,
+        type,
         amount,
         memory,
         cpu
@@ -56,7 +56,6 @@ function asyncRepeat(operation, iterationAmount, done, actualIteration = 0) {
 
 function runOperation(parameters, done) {
     const operation = parameters.operation;
-    const internal = parameters.internal;
 
     if (operation == "delete")
         return killInstance(parameters, done);
@@ -79,10 +78,6 @@ function killInstance(parameters, done) {
 }
 
 function addInstance(parameters, done) {
-    if (parameters.internal) {
-        return internalDeploy(parameters, () => done());
-    }
-
     const jsonArguments = {
         imageName: parameters.imageName,
         servicePort: parameters.servicePort,
@@ -91,28 +86,13 @@ function addInstance(parameters, done) {
         proxyContainerName: parameters.proxyContainerName,
         serverName: parameters.serverName,
         memory: parameters.memory,
+        type: parameters.type,
         cpu: parameters.cpu
     };
     console.log("Deploy arguments:", jsonArguments);
 
     runCommand("/usr/local/sbin/adlamin --action=deploy --data='" + JSON.stringify(jsonArguments) + "'", () => done());
 }
-
-function internalDeploy(parameters, done) {
-    const jsonArguments = {
-        imageName: parameters.imageName,
-        servicePort: parameters.servicePort,
-        appName: parameters.appName,
-        containerNetwork: parameters.containerNetwork,
-        internal: true,
-        memory: parameters.memory,
-        cpu: parameters.cpu
-    };
-    console.log("Internal deploy arguments:", jsonArguments);
-
-    runCommand("/usr/local/sbin/adlamin --action=deploy --data='" + JSON.stringify(jsonArguments) + "'", () => done());
-}
-
 
 function replaceInstance(parameters, done) {
     addInstance(parameters, () => {
