@@ -10,7 +10,8 @@
       "type": "bind",
       "source": "/etc/adlamin/configuration/nginx",
       "target": "/etc/nginx/conf.d"
-    }]
+    }],
+    "extraOptions": "--memory=150m --cpus=\".3\""
   },
   "reverseProxyConfiguration": {
     "publicPort": 80,

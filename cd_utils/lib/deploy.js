@@ -27,6 +27,7 @@ function getParameters(jsonData) {
     const type = jsonData.type || "public";
     const memory = jsonData.memory || "100m";
     const cpu = jsonData.cpu || ".1";
+    const sequence = jsonData.sequence || "";
 
     return {
         imageName,
@@ -39,7 +40,8 @@ function getParameters(jsonData) {
         type,
         amount,
         memory,
-        cpu
+        cpu,
+        sequence
     };
 }
 
@@ -87,7 +89,8 @@ function addInstance(parameters, done) {
         serverName: parameters.serverName,
         memory: parameters.memory,
         type: parameters.type,
-        cpu: parameters.cpu
+        cpu: parameters.cpu,
+        sequence: parameters.sequence
     };
     console.log("Deploy arguments:", jsonArguments);
 
