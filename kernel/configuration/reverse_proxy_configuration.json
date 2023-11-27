@@ -1,6 +1,5 @@
 {
   "containerConfiguration": {
-    "containerName": "dmz",
     "imageName": "nginx:latest",
     "networks": [{
       "name": "internal"
@@ -8,8 +7,8 @@
     "servicePorts": ["80"],
     "mounts": [{
       "type": "bind",
-      "source": "/etc/adlamin/configuration/nginx",
-      "target": "/etc/nginx/conf.d"
+      "source": "/etc/adlamin/reverse_proxy/dmz/nginx.conf",
+      "target": "/etc/nginx/conf.d/default.conf"
     }],
     "extraOptions": "--memory=150m --cpus=\".3\""
   },

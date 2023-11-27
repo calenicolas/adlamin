@@ -6,7 +6,7 @@
   "reverseProxyConfigurationFile": "/etc/adlamin/configuration/reverse_proxy_configuration.json",
   "monitorConfigurationFile": "/etc/adlamin/configuration/monitor_configuration.json",
   "knockdConfigurationFile": "/etc/knockd.conf",
-  "nginxRepositoriesPath": "/etc/adlamin/configuration/nginx",
+  "nginxRepositoriesPath": "/etc/adlamin/reverse_proxy/",
   "dockerContainersRepositoryPath": "/etc/adlamin/configuration/docker",
   "prometheusConfigurationFile": "/etc/adlamin/monitor/prometheus.yml"
 }
