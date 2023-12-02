@@ -28,6 +28,7 @@ function handlePostRequest(request, response) {
         try {
             const jsonBody = JSON.parse(body);
             validateBody(jsonBody);
+            trimAppName(jsonBody);
             writeData(jsonBody);
             response.writeHead(200);
             response.end();
@@ -51,6 +52,9 @@ function validateBody(jsonBody) {
         throw new Error("Invalid deploy")
     }
 }
+function trimAppName(jsonBody) {
+    jsonBody.appName = getFirstCharactersFrom(jsonBody.appName, 15)
+}
 
 function writeData(body) {
     const now = Date.now();
@@ -58,6 +62,14 @@ function writeData(body) {
         body.operation = "add";
     }
     fs.writeFileSync(pendingDeploysDirectory + now + ".json", JSON.stringify(body));
+}
+
+function getFirstCharactersFrom(text, characters) {
+    if (text.length >= characters) {
+        return text.substring(0, characters);
+    } else {
+        return text;
+    }
 }
 
 server.listen(8080);
