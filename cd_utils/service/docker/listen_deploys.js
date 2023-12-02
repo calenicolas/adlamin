@@ -53,7 +53,7 @@ function validateBody(jsonBody) {
     }
 }
 function trimAppName(jsonBody) {
-    jsonBody.appName = getFirstCharactersFrom(jsonBody.appName, 15)
+    jsonBody.app_name = getFirstCharactersFrom(jsonBody.app_name, 15)
 }
 
 function writeData(body) {
