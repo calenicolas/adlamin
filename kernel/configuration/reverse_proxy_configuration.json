@@ -10,7 +10,7 @@
       "source": "/etc/adlamin/reverse_proxy/dmz/nginx.conf",
       "target": "/etc/nginx/conf.d/default.conf"
     }],
-    "extraOptions": "--memory=150m --cpus=\".3\""
+    "extraOptions": "--memory=80m --cpus=\".15\""
   },
   "reverseProxyConfiguration": {
     "publicPort": 80,
