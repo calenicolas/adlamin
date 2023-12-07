@@ -10,7 +10,8 @@
       "type": "bind",
       "source": "/root/deploy-service/deploy/pending",
       "target": "/etc/pending-deploys"
-    }]
+    }],
+    "extraOptions": "--memory=50m --cpus=\".05\""
   },
   "portKnockingConfiguration": {
     "sequence": "4004 5005 6006",

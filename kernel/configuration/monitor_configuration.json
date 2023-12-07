@@ -15,6 +15,7 @@
       "name": "prometheus-data",
       "target": "/prometheus"
     }],
+    "extraOptions": "--memory=200m --cpus=\".08\"",
     "recipePath": "/etc/adlamin/monitor"
   },
   "grafanaConfiguration": {
@@ -23,7 +24,8 @@
     "networks": [{
       "name": "internal"
     }],
-    "servicePorts": ["3000"]
+    "servicePorts": ["3000"],
+    "extraOptions": "--memory=200m --cpus=\".15\""
   },
   "portKnockingConfiguration": {
     "sequence": "7007 8008 9009",
