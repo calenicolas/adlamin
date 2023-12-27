@@ -5,7 +5,9 @@ After=network.target
 [Service]
 Type=oneshot
 User=root
-ExecStart=/usr/bin/node /usr/local/lib/cd_utils/run_pending_deploys.js
+ExecStartPre=/bin/bash -c 'touch /run/cd-utils-lock'
+ExecStart=/bin/bash -c 'test -f /run/cd-utils-lock || /usr/bin/node /usr/local/lib/cd_utils/run_pending_deploys.js'
+ExecStop=/bin/rm -f /run/cd-utils-lock
 
 [Install]
 WantedBy=multi-user.target
