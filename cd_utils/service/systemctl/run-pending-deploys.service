@@ -6,7 +6,7 @@ After=network.target
 Type=oneshot
 User=root
 ExecStartPre=/bin/bash -c 'touch /run/cd-utils-lock'
-ExecStart=/bin/bash -c 'test -f /run/cd-utils-lock || /usr/bin/node /usr/local/lib/cd_utils/run_pending_deploys.js'
+ExecStart=/bin/bash -c 'test ! -f /run/cd-utils-lock || /usr/bin/node /usr/local/lib/cd_utils/run_pending_deploys.js'
 ExecStop=/bin/rm -f /run/cd-utils-lock
 
 [Install]
