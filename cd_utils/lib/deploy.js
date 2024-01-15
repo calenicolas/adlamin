@@ -25,6 +25,7 @@ function getParameters(jsonData) {
     const amount = jsonData.amount || 1;
     const operation = jsonData.operation || "add";
     const type = jsonData.type || "public";
+    const transport = jsonData.type || "http";
     const memory = jsonData.memory || "50m";
     const cpu = jsonData.cpu || ".05";
     const sequence = jsonData.sequence || "";
@@ -38,6 +39,7 @@ function getParameters(jsonData) {
         serverName,
         operation,
         type,
+        transport,
         amount,
         memory,
         cpu,
@@ -89,6 +91,7 @@ function addInstance(parameters, done) {
         serverName: parameters.serverName,
         memory: parameters.memory,
         type: parameters.type,
+        transport: parameters.transport,
         cpu: parameters.cpu,
         sequence: parameters.sequence
     };
@@ -98,9 +101,22 @@ function addInstance(parameters, done) {
 }
 
 function replaceInstance(parameters, done) {
-    addInstance(parameters, () => {
-        killInstance(parameters, done);
-    });
+    const jsonArguments = {
+        imageName: parameters.imageName,
+        servicePort: parameters.servicePort,
+        appName: parameters.appName,
+        containerNetwork: parameters.containerNetwork,
+        proxyContainerName: parameters.proxyContainerName,
+        serverName: parameters.serverName,
+        memory: parameters.memory,
+        type: parameters.type,
+        transport: parameters.transport,
+        cpu: parameters.cpu,
+        sequence: parameters.sequence
+    };
+    console.log("Replace deploy arguments:", jsonArguments);
+
+    runCommand("/usr/local/sbin/adlamin --action=replace_deploy --data='" + JSON.stringify(jsonArguments) + "'", () => done());
 }
 
 module.exports = deploy;
