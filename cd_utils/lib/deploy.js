@@ -25,7 +25,7 @@ function getParameters(jsonData) {
     const amount = jsonData.amount || 1;
     const operation = jsonData.operation || "add";
     const type = jsonData.type || "public";
-    const transport = jsonData.type || "http";
+    const transport = jsonData.transport || "http";
     const memory = jsonData.memory || "50m";
     const cpu = jsonData.cpu || ".05";
     const sequence = jsonData.sequence || "";
