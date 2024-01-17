@@ -49,4 +49,4 @@ sysctl -p
 
 clear
 
-echo "Ready. If your default network is not actually eth0, edit /etc/adlamin/configuration files replacing public network parameter"
+nano /etc/adlamin/configuration/*
