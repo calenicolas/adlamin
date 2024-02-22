@@ -40,6 +40,7 @@ allow_client "tcp" "$PUBLIC_NETWORK" "443"
 allow_client "udp" "$PUBLIC_NETWORK" "53"
 allow_client "udp" "$PUBLIC_NETWORK" "67"
 iptables -I FORWARD -o $PUBLIC_NETWORK -j ACCEPT
+iptables -I FORWARD -m state --state ESTABLISHED -i $PUBLIC_NETWORK -j ACCEPT
 iptables -t nat -A POSTROUTING -o $PUBLIC_NETWORK -j MASQUERADE
 iptables -P INPUT DROP
 iptables -P OUTPUT DROP
