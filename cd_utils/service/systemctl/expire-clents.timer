@@ -1,0 +1,10 @@
+[Unit]
+Description=Remover clientes expirados
+After=network.target
+
+[Timer]
+OnActiveSec=1h
+OnUnitActiveSec=1h
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Remover clientes expirados
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/local/sbin/adlamin --action=expire_clients
+[Install]
+WantedBy=multi-user.target
