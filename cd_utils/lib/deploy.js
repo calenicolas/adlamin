@@ -29,6 +29,7 @@ function getParameters(jsonData) {
     const memory = jsonData.memory || "50m";
     const cpu = jsonData.cpu || ".05";
     const sequence = jsonData.sequence || "";
+    const volumes = jsonData.volumes || [];
 
     return {
         imageName,
@@ -43,7 +44,8 @@ function getParameters(jsonData) {
         amount,
         memory,
         cpu,
-        sequence
+        sequence,
+        volumes
     };
 }
 
@@ -93,7 +95,8 @@ function addInstance(parameters, done) {
         type: parameters.type,
         transport: parameters.transport,
         cpu: parameters.cpu,
-        sequence: parameters.sequence
+        sequence: parameters.sequence,
+        volumes: parameters.volumes
     };
     console.log("Deploy arguments:", jsonArguments);
 
@@ -112,7 +115,8 @@ function replaceInstance(parameters, done) {
         type: parameters.type,
         transport: parameters.transport,
         cpu: parameters.cpu,
-        sequence: parameters.sequence
+        sequence: parameters.sequence,
+        volumes: parameters.volumes
     };
     console.log("Replace deploy arguments:", jsonArguments);
 
