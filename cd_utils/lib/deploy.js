@@ -3,8 +3,6 @@ const readFile = require('./read_file');
 const writeFile = require('./write_file');
 const runCommand = require('./run_command');
 
-const instancesFileName = "/root/deploy-service/deploy/instances.json";
-
 function deploy(jsonData, done = () => {}) {
     console.log("Deploying:", jsonData);
 

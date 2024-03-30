@@ -15,3 +15,4 @@ systemctl enable run-pending-deploys.timer
 systemctl enable expire-clients
 systemctl enable expire-clients.timer
 systemctl enable adlamin-initialize
+systemctl enable adlamin-cleanup

@@ -1,0 +1,10 @@
+[Unit]
+Description=Clean up adlamin files after reboot
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/local/sbin/adlamin --action=clean_up
+
+[Install]
+WantedBy=multi-user.target
