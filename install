@@ -61,7 +61,7 @@ iptables -A OUTPUT -j ADLAMIN_OUTPUT
 iptables -N ADLAMIN_FORWARD
 iptables -A FORWARD -j ADLAMIN_FORWARD
 
-iptables -N ADLAMIN_PREROUTING
+iptables -t nat -N ADLAMIN_PREROUTING
 iptables -t nat -A PREROUTING -j ADLAMIN_PREROUTING
 
 iptables-save > /etc/iptables/rules.v4
