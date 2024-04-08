@@ -3,7 +3,7 @@
 install_dependencies() {
   apt update -y
   apt upgrade -y
-  apt install -y jq ca-certificates curl gnupg knockd npm nodejs iptables-persistent
+  apt install -y jq ca-certificates curl gnupg knockd iptables-persistent
 
   install -m 0755 -d /etc/apt/keyrings
   curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg

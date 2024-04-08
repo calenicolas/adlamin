@@ -1,0 +1,14 @@
+{
+  "name": "cd-utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "run_pending_deploys.js",
+  "scripts": {
+    "package": "pkg -t node18-linux run_pending_deploys.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pkg": "^5.8.1"
+  }
+}
