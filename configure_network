@@ -26,10 +26,12 @@ echo '{"iptables": false}' > /etc/docker/daemon.json
 
 echo -e "IMPORTANT: \nPlease specify SSH connection parameters. This will prevent ssh connection to be closed.\n"
 
-echo "Protocol:"
+echo "Protocol:[80]"
 read -r PROTOCOL
-echo "Port:"
+PROTOCOL=${PROTOCOL:-"tcp"}
+echo "Port:[22]"
 read -r PORT
+PORT=${PORT:-"22"}
 
 allow_server "$PROTOCOL" "$1" "$PORT"
 
