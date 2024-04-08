@@ -72,3 +72,6 @@ sysctl -p
 clear
 
 nano /etc/adlamin/configuration/*
+
+mkdir /etc/adlamin/ssl
+echo "Move los certificados ssl a /etc/adlamin/ssl. Necesitas el fullchain.pem y privkey.pem"
