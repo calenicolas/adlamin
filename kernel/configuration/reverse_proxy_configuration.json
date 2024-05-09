@@ -1,6 +1,6 @@
 {
   "containerConfiguration": {
-    "imageName": "nginx:latest",
+    "imageName": "adlamin-nginx:latest",
     "networks": [{
       "name": "internal"
     }],

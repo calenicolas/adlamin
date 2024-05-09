@@ -1,6 +1,6 @@
 [Unit]
 Description=Cd utils para deployar
-After=network.target
+After=docker.service
 
 [Service]
 Type=oneshot

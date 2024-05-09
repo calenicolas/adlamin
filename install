@@ -11,7 +11,7 @@ allow_client() {
 
 ./install_dependencies
 
-read -p "Public network name:[eth0]" PUBLIC_NETWORK
+read -p "Public network name: [eth0]" PUBLIC_NETWORK
 PUBLIC_NETWORK=${PUBLIC_NETWORK:-"eth0"}
 
 mkdir /etc/adlamin

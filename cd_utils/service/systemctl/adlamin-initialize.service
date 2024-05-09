@@ -1,13 +1,11 @@
 [Unit]
 Description=Initializer for adlamin deploy service
 After=docker.service
-Wants=docker.service
+PartOf=docker.service
 
 [Service]
-Type=oneshot
 User=root
-ExecStartPre=/bin/sleep 10
 ExecStart=/usr/local/sbin/adlamin --action=initialize
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=docker.service
