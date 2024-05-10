@@ -6,6 +6,7 @@ ReloadPropagatedFrom=docker.service
 
 [Service]
 Type=oneshot
+ExecStartPre=/bin/sleep 2
 ExecStart=/usr/local/sbin/adlamin --action=initialize
 ExecReload=/usr/local/sbin/adlamin --action=initialize
 RemainAfterExit=yes
