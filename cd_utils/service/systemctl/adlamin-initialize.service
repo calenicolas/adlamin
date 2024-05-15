@@ -5,6 +5,7 @@ BindsTo=docker.service
 ReloadPropagatedFrom=docker.service
 
 [Service]
+User=root
 Type=oneshot
 ExecStartPre=/bin/sleep 2
 ExecStart=/usr/local/sbin/adlamin --action=initialize
