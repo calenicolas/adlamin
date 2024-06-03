@@ -5,4 +5,4 @@ cp configuration.json /etc/adlamin
 cp configuration/* /etc/adlamin/configuration
 
 echo "building adlamin-nginx image..."
-docker build -t adlamin-nginx ./docker/nginx
+su -c "docker build -t adlamin-nginx ./docker/nginx" $1

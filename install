@@ -9,10 +9,18 @@ allow_client() {
   iptables -I OUTPUT -p "$PROTOCOL" -o "$INTERFACE" --dport "$PORT" -m state --state NEW,ESTABLISHED -j ACCEPT
 }
 
+if ! command -v docker &> /dev/null; then
+    echo "Docker no está instalado en este sistema. Adlamin requiere docker corriendo como rootless"
+    exit 1
+fi
+
 ./install_dependencies
 
 read -p "Public network name: [eth0]" PUBLIC_NETWORK
 PUBLIC_NETWORK=${PUBLIC_NETWORK:-"eth0"}
+
+read -p "Docker user: [gallo]" DOCKER_USER
+DOCKER_USER=${DOCKER_USER:-"gallo"}
 
 mkdir /etc/adlamin
 jq -n \
@@ -21,11 +29,11 @@ jq -n \
 ./configure_network $PUBLIC_NETWORK
 
 cd kernel
-./install.sh
+./install.sh $DOCKER_USER
 cd ..
 
 cd cd_utils
-./install.sh
+./install.sh $DOCKER_USER
 cd ..
 
 cd knock_utils
@@ -73,6 +81,8 @@ sysctl -p
 clear
 
 nano /etc/adlamin/configuration/*
+nano /etc/adlamin/configuration.json
 
 mkdir /etc/adlamin/ssl
 echo "Move los certificados ssl a /etc/adlamin/ssl. Necesitas el fullchain.pem y privkey.pem"
+echo "Configura el daemon de docker para correr rootless. Para configurar el socket de docker, edita /etc/adlamin/configuration.json"

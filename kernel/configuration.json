@@ -8,5 +8,6 @@
   "knockdConfigurationFile": "/etc/knockd.conf",
   "nginxRepositoriesPath": "/etc/adlamin/reverse_proxy/",
   "dockerContainersRepositoryPath": "/etc/adlamin/configuration/docker",
+  "dockerSocketPath": "unix:///run/user/1000/docker.sock",
   "prometheusConfigurationFile": "/etc/adlamin/monitor/prometheus.yml"
 }

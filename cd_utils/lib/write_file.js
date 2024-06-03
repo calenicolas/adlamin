@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-module.exports = readFile;
+module.exports = writeFile;
 
-function readFile(fileName, content) {
+function writeFile(fileName, content) {
     fs.writeFileSync(fileName, JSON.stringify(content));
 }
