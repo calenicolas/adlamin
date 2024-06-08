@@ -3,9 +3,16 @@ const http = require('http');
 const fs = require('fs');
 const qs = require('querystring');
 
-const pendingDeploysDirectory = "/etc/pending-deploys/"
+const pendingDeploysDirectory = "/home/deploy/pending/"
+const args = process.argv.slice(2);
+const projectDir = args[0];
 
-module.exports = function saveDeploy(jsonBody) {
+const deployJson = fs.readFileSync(projectDir + "/deploy.json");
+const deployData = JSON.parse(deployJson);
+
+saveDeploy(deployData);
+
+function saveDeploy(jsonBody) {
     validateBody(jsonBody);
     trimAppName(jsonBody);
     writeData(jsonBody);

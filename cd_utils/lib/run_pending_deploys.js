@@ -2,8 +2,8 @@
 const fs = require('fs');
 const deploy = require("./deploy");
 
-const pendingDeploysDirectory = "/root/deploy-service/deploy/pending/";
-const doneDeploysDirectory = "/root/deploy-service/deploy/done/";
+const pendingDeploysDirectory = "/home/deploy/pending/";
+const doneDeploysDirectory = "/home/deploy/done/";
 
 function run(deploys) {
     if (!deploys.length) return;

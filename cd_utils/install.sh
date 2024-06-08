@@ -1,11 +1,20 @@
 #!/bin/bash
 
-chmod +x sbin/*
+mkdir /home/deploy/pending
+chown deploy:deploy /home/deploy/pending
+chmod 644 /home/deploy/pending
+
+mkdir /home/deploy/done
+chown deploy:deploy /home/deploy/done
+chmod 644 /home/deploy/done
+
+chmod 700 sbin/*
 cp -r sbin/* /usr/local/sbin
 
-cp -r service/systemctl/* /lib/systemd/system
+chmod 755 bin/*
+cp -r bin/* /usr/local/bin
 
-su -c "docker build -t deploy-service service/docker" $1
+cp -r service/systemctl/* /lib/systemd/system
 
 systemctl daemon-reload
 systemctl enable run-pending-deploys

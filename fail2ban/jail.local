@@ -1,7 +1,0 @@
-[sshd]
-enabled = true
-filter = sshd
-action = iptables[name=SSH, port=ssh, protocol=tcp]
-maxretry = 3
-findtime = 60
-bantime = 3600

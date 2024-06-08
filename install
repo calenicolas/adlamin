@@ -44,10 +44,6 @@ cd monitor_utils
 ./install.sh
 cd ..
 
-cd fail2ban
-./install.sh
-cd ..
-
 allow_client "tcp" "$PUBLIC_NETWORK" "80"
 allow_client "tcp" "$PUBLIC_NETWORK" "443"
 allow_client "udp" "$PUBLIC_NETWORK" "53"

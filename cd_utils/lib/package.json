@@ -5,12 +5,11 @@
   "main": "run_pending_deploys.js",
   "scripts": {
     "package": "pkg -t node18-linux run_pending_deploys.js",
-    "package_ssh_deploy": "pkg -t node18-linux ssh_deploy.js"
+    "package_save_deploy": "pkg -t node18-linux save_deploy.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "docker-cli-js": "^2.10.0",
     "pkg": "^5.8.1"
   }
 }
