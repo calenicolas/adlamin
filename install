@@ -29,7 +29,7 @@ jq -n \
 ./configure_network $PUBLIC_NETWORK
 
 cd kernel
-./install.sh DOCKER_SOCKET
+./install.sh $DOCKER_SOCKET
 cd ..
 
 cd cd_utils
