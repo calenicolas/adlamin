@@ -16,11 +16,11 @@ fi
 
 ./install_dependencies
 
-read -p "Public network name: [eth0]" PUBLIC_NETWORK
+read -p "Public network name: [eth0] " PUBLIC_NETWORK
 PUBLIC_NETWORK=${PUBLIC_NETWORK:-"eth0"}
 
-read -p "Docker user: [gallo]" DOCKER_USER
-DOCKER_USER=${DOCKER_USER:-"gallo"}
+read -p "Docker socket: [unix:///run/user/1001/docker.sock] " DOCKER_USER
+DOCKER_SOCKET=${DOCKER_SOCKET:-"unix:///run/user/1001/docker.sock"}
 
 mkdir /etc/adlamin
 jq -n \
@@ -29,11 +29,11 @@ jq -n \
 ./configure_network $PUBLIC_NETWORK
 
 cd kernel
-./install.sh $DOCKER_USER
+./install.sh DOCKER_SOCKET
 cd ..
 
 cd cd_utils
-./install.sh $DOCKER_USER
+./install.sh
 cd ..
 
 cd knock_utils
