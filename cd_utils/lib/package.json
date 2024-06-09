@@ -4,12 +4,12 @@
   "description": "",
   "main": "run_pending_deploys.js",
   "scripts": {
-    "package": "pkg -t node18-linux run_pending_deploys.js",
-    "package_save_deploy": "pkg -t node18-linux save_deploy.js"
+    "package": "pkg -t node20-linux run_pending_deploys.js",
+    "package_save_deploy": "pkg -t node20-linux save_deploy.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "pkg": "^5.8.1"
+    "@yao-pkg/pkg": "^5.11.5"
   }
 }
