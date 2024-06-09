@@ -4,8 +4,7 @@
   "description": "",
   "main": "run_pending_deploys.js",
   "scripts": {
-    "package": "pkg -t node20-linux run_pending_deploys.js",
-    "package_save_deploy": "pkg -t node20-linux save_deploy.js"
+    "package": "pkg -t node20-linux run_pending_deploys.js"
   },
   "author": "",
   "license": "ISC",
