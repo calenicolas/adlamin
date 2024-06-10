@@ -2,15 +2,15 @@
 
 mkdir /home/deploy/jail/pending
 chown deploy:deploy /home/deploy/jail/pending
-chmod 644 /home/deploy/jail/pending
+chmod 700 /home/deploy/jail/pending
 
 mkdir /home/deploy/jail/done
 chown deploy:deploy /home/deploy/jail/done
-chmod 644 /home/deploy/jail/done
+chmod 700 /home/deploy/jail/done
 
 mkdir /home/deploy/jail/images
 chown deploy:deploy /home/deploy/jail/images
-chmod 644 /home/deploy/jail/images
+chmod 700 /home/deploy/jail/images
 
 chmod 700 sbin/*
 cp -r sbin/* /usr/local/sbin
