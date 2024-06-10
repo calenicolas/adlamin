@@ -77,8 +77,6 @@ iptables-save > /etc/iptables/rules.v4
 nano /etc/sysctl.conf
 sysctl -p
 
-clear
-
 nano /etc/adlamin/configuration/*.json
 nano /etc/adlamin/configuration.json
 touch /etc/adlamin/hosts
