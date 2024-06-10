@@ -1,9 +1,0 @@
-[Unit]
-Description=Loads docker images into local registry
-
-[Service]
-Type=simple
-ExecStart=/usr/local/bin/load_docker_images
-
-[Install]
-WantedBy=default.target

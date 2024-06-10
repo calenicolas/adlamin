@@ -1,0 +1,12 @@
+[Unit]
+Description=Cd utils para deployar
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/bash -c 'touch /run/cd-utils-lock'
+ExecStart=/bin/bash -c 'test ! -f /run/cd-utils-lock || /usr/local/bin/run_pending_deploys'
+ExecStop=/bin/rm -f /run/cd-utils-lock
+
+[Install]
+WantedBy=multi-user.target

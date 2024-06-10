@@ -4,7 +4,8 @@
   "description": "",
   "main": "run_pending_deploys.js",
   "scripts": {
-    "package": "pkg -t node20-linux run_pending_deploys.js"
+    "package": "pkg -t node20-linux run_pending_deploys.js",
+    "package_socket": "pkg -t node20-linux socket.js -o adlamin-socket"
   },
   "author": "",
   "license": "ISC",

@@ -1,0 +1,9 @@
+[Unit]
+Description=Socket to run adlamin commands as non root user
+
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/adlamin-socket
+
+[Install]
+WantedBy=multi-user.target

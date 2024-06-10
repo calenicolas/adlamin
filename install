@@ -19,8 +19,11 @@ fi
 read -p "Public network name: [eth0] " PUBLIC_NETWORK
 PUBLIC_NETWORK=${PUBLIC_NETWORK:-"eth0"}
 
-read -p "Docker socket: [unix:///run/user/1001/docker.sock] " DOCKER_USER
+read -p "Docker socket: [unix:///run/user/1001/docker.sock] " DOCKER_SOCKET
 DOCKER_SOCKET=${DOCKER_SOCKET:-"unix:///run/user/1001/docker.sock"}
+
+read -p "Docker user: [deploy] " DOCKER_USER
+DOCKER_USER=${DOCKER_USER:-"deploy"}
 
 mkdir /etc/adlamin
 jq -n \
@@ -33,7 +36,7 @@ cd kernel
 cd ..
 
 cd cd_utils
-./install.sh
+./install.sh $DOCKER_USER
 cd ..
 
 cd knock_utils
@@ -76,8 +79,9 @@ sysctl -p
 
 clear
 
-nano /etc/adlamin/configuration/*
+nano /etc/adlamin/configuration/*.json
 nano /etc/adlamin/configuration.json
+touch /etc/adlamin/hosts
 
 mkdir /etc/adlamin/ssl
 echo "Move los certificados ssl a /etc/adlamin/ssl. Necesitas el fullchain.pem y privkey.pem"

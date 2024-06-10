@@ -1,13 +1,7 @@
-const { exec } = require('child_process');
+const { spawn } = require('child_process');
 
-module.exports = function(command, done) {
-    const commandResult = exec(command, done);
-
-    commandResult.stdout.on('data', (data) => {
-        console.log(`${data}`);
-    });
-
-    commandResult.stderr.on('data', (data) => {
-        console.log(`${data}`);
-    });
+module.exports = function(command, parameters, done) {
+    const commandResult = spawn(command, parameters);
+    commandResult.on('close', () => { done() });
+    commandResult.on('error', (error) => { console.log(error); done() });
 }

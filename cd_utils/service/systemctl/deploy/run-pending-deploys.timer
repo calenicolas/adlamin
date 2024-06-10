@@ -1,0 +1,10 @@
+[Unit]
+Description=Cd utils para deployar
+After=network.target
+
+[Timer]
+OnActiveSec=10s
+OnUnitActiveSec=10s
+
+[Install]
+WantedBy=timers.target

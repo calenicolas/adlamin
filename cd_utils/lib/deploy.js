@@ -2,6 +2,7 @@
 const readFile = require('./read_file');
 const writeFile = require('./write_file');
 const runCommand = require('./run_command');
+const adlaminCli = "/usr/local/bin/adlamin-cli"
 
 function deploy(jsonData, done = () => {}) {
     console.log("Deploying:", jsonData);
@@ -78,7 +79,7 @@ function killInstance(parameters, done) {
     };
     console.log("Kill arguments:", jsonArguments);
 
-    runCommand("/usr/local/sbin/adlamin --action=kill --data='" + JSON.stringify(jsonArguments) + "'", () => done());
+    runCommand(adlaminCli, ["kill", JSON.stringify(jsonArguments)], () => done());
 }
 
 function addInstance(parameters, done) {
@@ -98,7 +99,7 @@ function addInstance(parameters, done) {
     };
     console.log("Deploy arguments:", jsonArguments);
 
-    runCommand("/usr/local/sbin/adlamin --action=deploy --data='" + JSON.stringify(jsonArguments) + "'", () => done());
+    runCommand(adlaminCli, ["deploy", JSON.stringify(jsonArguments)], () => done());
 }
 
 function replaceInstance(parameters, done) {
@@ -118,7 +119,7 @@ function replaceInstance(parameters, done) {
     };
     console.log("Replace deploy arguments:", jsonArguments);
 
-    runCommand("/usr/local/sbin/adlamin --action=replace_deploy --data='" + JSON.stringify(jsonArguments) + "'", () => done());
+    runCommand(adlaminCli, ["replace_deploy", JSON.stringify(jsonArguments)], () => done());
 }
 
 module.exports = deploy;
