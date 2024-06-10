@@ -1,14 +1,14 @@
 #!/bin/bash
 
-mkdir /home/$1/jail/pending
+mkdir -p /home/$1/jail/pending
 chown $1:$1 /home/$1/jail/pending
 chmod 700 /home/$1/jail/pending
 
-mkdir /home/$1/jail/done
+mkdir -p /home/$1/jail/done
 chown $1:$1 /home/$1/jail/done
 chmod 700 /home/$1/jail/done
 
-mkdir /home/$1/jail/images
+mkdir -p /home/$1/jail/images
 chown $1:$1 /home/$1/jail/images
 chmod 700 /home/$1/jail/images
 
