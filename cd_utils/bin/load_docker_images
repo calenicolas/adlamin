@@ -1,0 +1,14 @@
+#!/bin/bash
+
+IMAGE_PATH=/home/deploy/jail/images
+
+if [ -z "$(ls -A "$IMAGE_PATH")" ];
+then
+    exit
+fi
+
+for image in $IMAGE_PATH/*.tar;
+do
+  docker load -i $image
+  rm $image
+done
