@@ -3,7 +3,9 @@ const fs = require('fs');
 const runCommand = require('./run_command');
 const path = "/tmp/adlamin.sock";
 
-fs.unlinkSync(path);
+try {
+    fs.unlinkSync(path);
+} catch (error) { }
 
 const server = net.createServer((client) => {
   client.on('data', (message) => {

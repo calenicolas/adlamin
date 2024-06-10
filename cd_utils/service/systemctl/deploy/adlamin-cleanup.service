@@ -4,7 +4,7 @@ Description=Clean up adlamin files after reboot
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStart=/usr/local/sbin/adlamin-cli clean_up
+ExecStart=/usr/local/bin/adlamin-cli clean_up
 
 [Install]
 WantedBy=default.target
