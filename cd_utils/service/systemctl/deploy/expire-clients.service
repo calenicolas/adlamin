@@ -6,4 +6,4 @@ After=network.target
 Type=oneshot
 ExecStart=/usr/local/bin/adlamin-cli expire_clients
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

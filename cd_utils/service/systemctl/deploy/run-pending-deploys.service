@@ -9,4 +9,4 @@ ExecStart=/bin/bash -c 'test ! -f /run/cd-utils-lock || /usr/local/bin/run_pendi
 ExecStop=/bin/rm -f /run/cd-utils-lock
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

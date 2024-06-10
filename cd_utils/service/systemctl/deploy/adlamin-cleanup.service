@@ -7,4 +7,4 @@ RemainAfterExit=true
 ExecStart=/usr/local/sbin/adlamin-cli clean_up
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
