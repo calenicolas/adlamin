@@ -4,7 +4,7 @@ After=docker.service
 
 [Service]
 Type=oneshot
-ExecStartPre=/bin/touch /home/deploy/jail/lock/cd-utils-lock'
+ExecStartPre=/bin/touch /home/deploy/jail/lock/cd-utils-lock
 ExecStart=/bin/bash -c 'test -f /home/deploy/jail/lock/cd-utils-lock || /usr/local/bin/run_pending_deploys'
 ExecStop=/bin/rm -f /home/deploy/jail/lock/cd-utils-lock
 
