@@ -12,12 +12,6 @@ mkdir -p /home/$1/jail/images
 chown $1:$1 /home/$1/jail/images
 chmod 700 /home/$1/jail/images
 
-cd lib
-npm i
-npm run package
-npm run package_socket
-cd ..
-
 chmod 700 sbin/*
 cp -r sbin/* /usr/local/sbin
 
