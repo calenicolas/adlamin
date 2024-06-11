@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SOCKET_PATH="/home/deploy/adlamin.sock"
+SOCKET_PATH="/tmp/adlamin.sock"
 ACTION="$1"
 DATA="$2"
 
