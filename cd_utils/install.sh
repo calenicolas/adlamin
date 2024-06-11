@@ -13,6 +13,7 @@ chown $1:$1 /home/$1/jail/images
 chmod 700 /home/$1/jail/images
 
 cd lib
+npm i
 npm run package
 npm run package_socket
 cd ..
