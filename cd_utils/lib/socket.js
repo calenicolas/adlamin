@@ -20,7 +20,7 @@ const server = net.createServer((client) => {
 });
 
 server.listen(path, () => {
-  fs.chownSync(path, userid.uid('deploy'), userid.gid('deploy'));
+  fs.chmodSync(path, 0o777);
 });
 
 process.on('SIGINT', () => {
