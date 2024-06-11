@@ -14,7 +14,8 @@ deleteSocket(path);
 const server = net.createServer((client) => {
   client.on('data', (message) => {
     const { action, data } = JSON.parse(message.toString());
-    console.log("adlamin", action, data);
+    const stringData = JSON.stringify(data);
+    console.log("adlamin", action, stringData);
     runCommand("/usr/local/sbin/adlamin", ["--action=" + action, "--data=" + data], () => {})
   });
 });
