@@ -13,7 +13,8 @@ deleteSocket(path);
 
 const server = net.createServer((client) => {
   client.on('data', (message) => {
-    const { action, data } = JSON.parse(message);
+    const { action, data } = JSON.parse(message.toString());
+    console.log("adlamin", action, data);
     runCommand("/usr/local/sbin/adlamin", ["--action=" + action, "--data=" + data], () => {})
   });
 });
