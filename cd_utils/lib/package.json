@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@yao-pkg/pkg": "^5.11.5"
+    "@yao-pkg/pkg": "^5.11.5",
+    "userid": "^1.2.5"
   }
 }

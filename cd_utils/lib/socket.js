@@ -1,11 +1,16 @@
 const net = require('net');
 const fs = require('fs');
+const userid = require('userid');
 const runCommand = require('./run_command');
 const path = "/tmp/adlamin.sock";
 
-try {
-    fs.unlinkSync(path);
-} catch (error) { }
+function deleteSocket(path) {
+    try {
+        fs.unlinkSync(path);
+    } catch (error) { }
+}
+
+deleteSocket(path);
 
 const server = net.createServer((client) => {
   client.on('data', (message) => {
@@ -14,10 +19,13 @@ const server = net.createServer((client) => {
   });
 });
 
-server.listen(path);
+server.listen(path, () => {
+  fs.chownSync(path, userid.uid('deploy'), userid.gid('deploy'));
+});
 
 process.on('SIGINT', () => {
   server.close(() => {
+    deleteSocket(path);
     process.exit(0);
   });
 });
