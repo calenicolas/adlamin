@@ -4,13 +4,12 @@
   "description": "",
   "main": "run_pending_deploys.js",
   "scripts": {
-    "package": "pkg -t node20-linux run_pending_deploys.js",
-    "package_socket": "pkg -t node20-linux socket.js -o adlamin-socket"
+    "package": "pkg -t node20-linux run_pending_deploys.js -o ../bin/run_pending_deploys",
+    "package_socket": "pkg -t node20-linux socket.js -o ../sbin/adlamin-socket"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@yao-pkg/pkg": "^5.11.5",
-    "userid": "^1.2.5"
+    "@yao-pkg/pkg": "^5.11.5"
   }
 }

@@ -1,6 +1,5 @@
 const net = require('net');
 const fs = require('fs');
-const userid = require('userid');
 const runCommand = require('./run_command');
 const path = "/tmp/adlamin.sock";
 
