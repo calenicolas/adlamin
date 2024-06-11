@@ -16,7 +16,7 @@ const server = net.createServer((client) => {
     const { action, data } = JSON.parse(message.toString());
     const stringData = JSON.stringify(data);
     console.log("adlamin", action, stringData);
-    runCommand("/usr/local/sbin/adlamin", ["--action=" + action, "--data=" + data], () => {})
+    runCommand("/usr/local/sbin/adlamin", ["--action=" + action, "--data=" + stringData], () => {})
   });
 });
 
