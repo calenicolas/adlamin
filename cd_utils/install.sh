@@ -14,7 +14,7 @@ chmod 700 /home/$1/jail/images
 
 mkdir -p /home/$1/jail/lock
 chown $1:$1 /home/$1/jail/lock
-chmod 600 /home/$1/jail/lock
+chmod 700 /home/$1/jail/lock
 
 chmod 700 sbin/*
 cp -r sbin/* /usr/local/sbin
