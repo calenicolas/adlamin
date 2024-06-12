@@ -1,7 +1,7 @@
 [Unit]
 Description=Initializer for adlamin deploy service
 BindsTo=docker.service
-After=docker.service
+After=docker.service adlamin-cleanup.service
 ReloadPropagatedFrom=docker.service
 
 [Service]

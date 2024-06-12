@@ -1,3 +1,0 @@
-# Ignore everything except the listen_deploys.js file
-../nodejs-hello-world/LICENSE
-!listen_deploys.js
