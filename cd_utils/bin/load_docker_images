@@ -2,9 +2,12 @@
 
 IMAGE_PATH=/home/deploy/jail/images
 
-for image in $IMAGE_PATH/*.tar;
-do
-  [ ! -f "$i" ] || break
-  docker load -i $image
-  rm $image
+for image in "$IMAGE_PATH"/*.tar; do
+  [ ! -f "$image" ] && continue
+  docker load -i "$image"
+  rm "$image"
+
+  TIMESTAMP_MILLIS=$(($(date +%s%N)/1000000))
+  mv "${image%.tar}.json" "../pending/$TIMESTAMP_MILLIS.json"
+  rm "${image%.tar}.json"
 done
