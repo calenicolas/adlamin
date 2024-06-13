@@ -4,4 +4,4 @@ SOCKET_PATH="/tmp/adlamin.sock"
 ACTION="$1"
 DATA=${2:-"{}"}
 
-echo "{\"action\": \"$ACTION\", \"data\": $DATA}" | socat - UNIX-CONNECT:"$SOCKET_PATH"
+echo "{\"action\": \"$ACTION\", \"data\": $DATA}" | socat -t0 -,ignoreeof UNIX-CONNECT:"$SOCKET_PATH"
