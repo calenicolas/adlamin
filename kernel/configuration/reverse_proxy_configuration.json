@@ -4,7 +4,7 @@
     "networks": [{
       "name": "internal"
     }],
-    "servicePorts": ["80"],
+    "servicePorts": ["443"],
     "mounts": [{
       "type": "bind",
       "source": "/etc/adlamin/reverse_proxy/dmz/nginx.conf",
