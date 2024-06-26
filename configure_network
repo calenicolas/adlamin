@@ -37,6 +37,9 @@ iptables -P INPUT DROP
 iptables -P OUTPUT DROP
 iptables -P FORWARD DROP
 
+iptables -t nat -N ADLAMIN_PREROUTING
+iptables -t nat -A PREROUTING -j ADLAMIN_PREROUTING
+
 allow_client "tcp" "$1" "80"
 allow_client "tcp" "$1" "443"
 allow_client "udp" "$1" "53"
