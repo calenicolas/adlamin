@@ -1,14 +1,5 @@
 #!/bin/bash
 
-allow_client() {
-  local PROTOCOL=$1
-  local INTERFACE=$2
-  local PORT=$3
-
-  iptables -I INPUT -p "$PROTOCOL" -i "$INTERFACE" --sport "$PORT" -m state --state ESTABLISHED -j ACCEPT
-  iptables -I OUTPUT -p "$PROTOCOL" -o "$INTERFACE" --dport "$PORT" -m state --state NEW,ESTABLISHED -j ACCEPT
-}
-
 if ! command -v docker &> /dev/null; then
     echo "Docker no está instalado en este sistema. Adlamin requiere docker corriendo como rootless"
     exit 1
@@ -46,33 +37,6 @@ cd ..
 cd monitor_utils
 ./install.sh
 cd ..
-
-allow_client "tcp" "$PUBLIC_NETWORK" "80"
-allow_client "tcp" "$PUBLIC_NETWORK" "443"
-allow_client "udp" "$PUBLIC_NETWORK" "53"
-allow_client "udp" "$PUBLIC_NETWORK" "67"
-
-iptables -I FORWARD -o $PUBLIC_NETWORK -j ACCEPT
-iptables -I FORWARD -m state --state ESTABLISHED -i $PUBLIC_NETWORK -j ACCEPT
-iptables -t nat -A POSTROUTING -o $PUBLIC_NETWORK -j MASQUERADE
-
-iptables -P INPUT DROP
-iptables -P OUTPUT DROP
-iptables -P FORWARD DROP
-
-iptables -N ADLAMIN_INPUT
-iptables -A INPUT -j ADLAMIN_INPUT
-
-iptables -N ADLAMIN_OUTPUT
-iptables -A OUTPUT -j ADLAMIN_OUTPUT
-
-iptables -N ADLAMIN_FORWARD
-iptables -A FORWARD -j ADLAMIN_FORWARD
-
-iptables -t nat -N ADLAMIN_PREROUTING
-iptables -t nat -A PREROUTING -j ADLAMIN_PREROUTING
-
-iptables-save > /etc/iptables/rules.v4
 
 nano /etc/sysctl.conf
 sysctl -p

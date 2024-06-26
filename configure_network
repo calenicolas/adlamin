@@ -1,5 +1,14 @@
 #!/bin/bash
 
+allow_client() {
+  local PROTOCOL=$1
+  local INTERFACE=$2
+  local PORT=$3
+
+  iptables -I INPUT -p "$PROTOCOL" -i "$INTERFACE" --sport "$PORT" -m state --state ESTABLISHED -j ACCEPT
+  iptables -I OUTPUT -p "$PROTOCOL" -o "$INTERFACE" --dport "$PORT" -m state --state NEW,ESTABLISHED -j ACCEPT
+}
+
 allow_server() {
   local PROTOCOL=$1
   local INTERFACE=$2
@@ -12,17 +21,6 @@ allow_server() {
 iptables -F INPUT
 iptables -F OUTPUT
 iptables -F FORWARD
-iptables -F DOCKER
-iptables -F DOCKER-ISOLATION-STAGE-1
-iptables -F DOCKER-ISOLATION-STAGE-2
-iptables -F DOCKER-USER
-iptables -F -t nat
-iptables -X DOCKER
-iptables -X DOCKER-ISOLATION-STAGE-1
-iptables -X DOCKER-ISOLATION-STAGE-2
-iptables -X DOCKER-USER
-
-echo '{"iptables": false}' > /etc/docker/daemon.json
 
 echo -e "IMPORTANT: \nPlease specify SSH connection parameters. This will prevent ssh connection to be closed.\n"
 
@@ -35,8 +33,16 @@ PORT=${PORT:-"22"}
 
 allow_server "$PROTOCOL" "$1" "$PORT"
 
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP
+iptables -P FORWARD DROP
+
+allow_client "tcp" "$1" "80"
+allow_client "tcp" "$1" "443"
+allow_client "udp" "$1" "53"
+allow_client "udp" "$1" "67"
+
 iptables-save > /etc/iptables/rules.v4
-iptables-restore < /etc/iptables/rules.v4
 netfilter-persistent reload
 
 sysctl -p /etc/sysctl.conf
