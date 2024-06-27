@@ -38,7 +38,7 @@ cd monitor_utils
 ./install.sh
 cd ..
 
-nano /etc/sysctl.conf
+echo "net.ipv4.conf.all.route_localnet=1" > /etc/sysctl.d/local.conf
 sysctl -p
 
 nano /etc/adlamin/configuration/*.json
