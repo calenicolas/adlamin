@@ -9,5 +9,6 @@
   "nginxRepositoriesPath": "/etc/adlamin/reverse_proxy/",
   "dockerContainersRepositoryPath": "/etc/adlamin/configuration/docker",
   "dockerSocketPath": "unix:///run/user/1001/docker.sock",
+  "dmzExposePort": "4444",
   "prometheusConfigurationFile": "/etc/adlamin/monitor/prometheus.yml"
 }
