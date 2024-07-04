@@ -1,6 +1,6 @@
 [Unit]
 Description=Remover clientes expirados
-After=network.target
+After=network.target adlamin-initialize.service
 
 [Service]
 Type=oneshot
