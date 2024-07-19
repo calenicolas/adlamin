@@ -46,5 +46,7 @@ nano /etc/adlamin/configuration.json
 touch /etc/adlamin/hosts
 
 mkdir /etc/adlamin/ssl
+chmod 644 *.pem
+cp *.pem /etc/adlamin/ssl
 echo "Move los certificados ssl a /etc/adlamin/ssl. Necesitas el fullchain.pem y privkey.pem"
 echo "Configura el daemon de docker para correr rootless. Para configurar el socket de docker, edita /etc/adlamin/configuration.json"
