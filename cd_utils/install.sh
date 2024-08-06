@@ -35,4 +35,4 @@ systemctl -M $1@ --user enable load-docker-images
 systemctl -M $1@ --user enable load-docker-images.timer
 systemctl -M $1@ --user enable expire-clients
 systemctl -M $1@ --user enable expire-clients.timer
-systemctl -M $1@ --user enable adlamin-start_ip
+systemctl -M $1@ --user enable adlamin-start_up
