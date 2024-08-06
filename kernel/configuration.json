@@ -1,14 +1,8 @@
 {
-  "dockerRegistryConfigurationFile": "/etc/adlamin/configuration/docker_registry_configuration.json",
-  "dockerRegistryIpFile": "/etc/adlamin/configuration/docker_registry_ip.json",
-  "dockerDaemonConfigurationFile": "/etc/docker/daemon.json",
-  "deployServiceConfigurationFile": "/etc/adlamin/configuration/deploy_service_configuration.json",
-  "reverseProxyConfigurationFile": "/etc/adlamin/configuration/reverse_proxy_configuration.json",
-  "monitorConfigurationFile": "/etc/adlamin/configuration/monitor_configuration.json",
-  "knockdConfigurationFile": "/etc/knockd.conf",
-  "nginxRepositoriesPath": "/etc/adlamin/reverse_proxy/",
-  "dockerContainersRepositoryPath": "/etc/adlamin/configuration/docker",
-  "dockerSocketPath": "unix:///run/user/1001/docker.sock",
-  "dmzExposePort": "4444",
-  "prometheusConfigurationFile": "/etc/adlamin/monitor/prometheus.yml"
+  "reverseProxyPath": "/etc/adlamin/reverse_proxy",
+  "prometheusPath": "/etc/adlamin/prometheus",
+  "applicationsPath": "/etc/adlamin/applications",
+  "knockdConfPath": "/etc/knockd.conf",
+  "httpClientsPath": "/etc/adlamin/http-clients",
+  "dockerSocket": "unix:///run/user/1001/docker.sock"
 }

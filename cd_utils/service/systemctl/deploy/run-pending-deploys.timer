@@ -1,6 +1,6 @@
 [Unit]
 Description=Cd utils para deployar
-After=network.target
+After=adlamin-start_up.service
 
 [Timer]
 OnActiveSec=10s

@@ -1,5 +1,6 @@
 [Unit]
 Description=Loads docker images into local registry
+After=adlamin-start_up.service
 
 [Service]
 Type=simple

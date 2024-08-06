@@ -1,6 +1,6 @@
 [Unit]
 Description=Cd utils para deployar
-After=docker.service
+After=adlamin-start_up.service
 
 [Service]
 Type=oneshot

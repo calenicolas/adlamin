@@ -34,16 +34,10 @@ cd knock_utils
 ./install.sh
 cd ..
 
-cd monitor_utils
-./install.sh
-cd ..
-
 echo "net.ipv4.conf.all.route_localnet=1" > /etc/sysctl.d/local.conf
 sysctl -p
 
-nano /etc/adlamin/configuration/*.json
 nano /etc/adlamin/configuration.json
-touch /etc/adlamin/hosts
 
 mkdir /etc/adlamin/ssl
 chmod 644 *.pem

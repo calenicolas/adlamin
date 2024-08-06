@@ -1,9 +1,10 @@
 [Unit]
 Description=Loads docker images every minute
+After=adlamin-start_up.service
 
 [Timer]
-OnBootSec=1min
-OnUnitActiveSec=1min
+OnBootSec=30s
+OnUnitActiveSec=30s
 Persistent=true
 
 [Install]

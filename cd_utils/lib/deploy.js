@@ -5,8 +5,6 @@ const runCommand = require('./run_command');
 const adlaminCli = "/usr/local/bin/adlamin-cli"
 
 function deploy(jsonData, done = () => {}) {
-    console.log("Deploying:", jsonData);
-
     const parameters = getParameters(jsonData);
 
     asyncRepeat((iterationDone) => {
@@ -14,38 +12,16 @@ function deploy(jsonData, done = () => {}) {
     }, parameters.amount, done);
 }
 
-function getParameters(jsonData) {
-    const imageName = jsonData.image_name;
-    const appName = jsonData.app_name;
-    const servicePort = jsonData.service_port;
-    const containerNetwork = appName.substring(0, 15);
-    const proxyContainerName = jsonData.proxy_container_name;
-    const serverName = jsonData.server_name;
-    const amount = jsonData.amount || 1;
-    const operation = jsonData.operation || "add";
-    const type = jsonData.type || "public";
-    const transport = jsonData.transport || "http";
-    const memory = jsonData.memory || "50m";
-    const cpu = jsonData.cpu || ".05";
-    const sequence = jsonData.sequence || "";
-    const volumes = jsonData.volumes || [];
+function cutString(string, limit) {
+  if (string.length > limit) {
+    return string.substring(0, limit);
+  }
+  return string;
+}
 
-    return {
-        imageName,
-        appName,
-        servicePort,
-        containerNetwork,
-        proxyContainerName,
-        serverName,
-        operation,
-        type,
-        transport,
-        amount,
-        memory,
-        cpu,
-        sequence,
-        volumes
-    };
+function getParameters(jsonData) {
+    jsonData.applicationName = cutString(jsonData.applicationName, 15);
+    return jsonData;
 }
 
 function asyncRepeat(operation, iterationAmount, done, actualIteration = 0) {
@@ -61,65 +37,12 @@ function asyncRepeat(operation, iterationAmount, done, actualIteration = 0) {
 
 function runOperation(parameters, done) {
     const operation = parameters.operation;
-
-    if (operation == "delete")
-        return killInstance(parameters, done);
-
-    if (operation == "replace")
-        return replaceInstance(parameters, done);
-
     addInstance(parameters, () => done());
 }
 
-function killInstance(parameters, done) {
-    const jsonArguments = {
-        appName: parameters.appName,
-        proxyContainerName: parameters.proxyContainerName,
-        serverName: parameters.serverName
-    };
-    console.log("Kill arguments:", jsonArguments);
-
-    runCommand(adlaminCli, ["kill", JSON.stringify(jsonArguments)], () => done());
-}
-
 function addInstance(parameters, done) {
-    const jsonArguments = {
-        imageName: parameters.imageName,
-        servicePort: parameters.servicePort,
-        appName: parameters.appName,
-        containerNetwork: parameters.containerNetwork,
-        proxyContainerName: parameters.proxyContainerName,
-        serverName: parameters.serverName,
-        memory: parameters.memory,
-        type: parameters.type,
-        transport: parameters.transport,
-        cpu: parameters.cpu,
-        sequence: parameters.sequence,
-        volumes: parameters.volumes
-    };
-    console.log("Deploy arguments:", jsonArguments);
-
-    runCommand(adlaminCli, ["deploy", JSON.stringify(jsonArguments)], () => done());
-}
-
-function replaceInstance(parameters, done) {
-    const jsonArguments = {
-        imageName: parameters.imageName,
-        servicePort: parameters.servicePort,
-        appName: parameters.appName,
-        containerNetwork: parameters.containerNetwork,
-        proxyContainerName: parameters.proxyContainerName,
-        serverName: parameters.serverName,
-        memory: parameters.memory,
-        type: parameters.type,
-        transport: parameters.transport,
-        cpu: parameters.cpu,
-        sequence: parameters.sequence,
-        volumes: parameters.volumes
-    };
-    console.log("Replace deploy arguments:", jsonArguments);
-
-    runCommand(adlaminCli, ["replace_deploy", JSON.stringify(jsonArguments)], () => done());
+    console.log("Deploy arguments:", parameters);
+    runCommand(adlaminCli, ["deploy", JSON.stringify(parameters)], () => done());
 }
 
 module.exports = deploy;
