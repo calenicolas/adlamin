@@ -1,5 +1,6 @@
 {
   "reverseProxyPath": "/etc/adlamin/reverse_proxy",
+  "certificatesPath": "/etc/adlamin/ssl",
   "prometheusPath": "/etc/adlamin/prometheus",
   "applicationsPath": "/etc/adlamin/applications",
   "knockdConfPath": "/etc/knockd.conf",
