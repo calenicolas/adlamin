@@ -40,7 +40,14 @@ sysctl -p
 nano /etc/adlamin/configuration.json
 
 mkdir /etc/adlamin/ssl
-chmod 644 *.pem
-cp *.pem /etc/adlamin/ssl
-echo "Move los certificados ssl a /etc/adlamin/ssl. Necesitas el fullchain.pem y privkey.pem"
+
+openssl genpkey -algorithm RSA -out certificate.key -pkeyopt rsa_keygen_bits:2048
+openssl req -new -x509 -key certificate.key -out certificate.crt -days 365
+
+mv certificate.key /etc/adlamin/ssl
+mv certificate.crt /etc/adlamin/ssl
+
+chmod 644 /etc/adlamin/ssl/*
+
+echo "Move los certificados ssl a /etc/adlamin/ssl. Tienen que llamarse certificate.crt y certificate.key"
 echo "Configura el daemon de docker para correr rootless. Para configurar el socket de docker, edita /etc/adlamin/configuration.json"
