@@ -1,6 +1,7 @@
 [Unit]
 Description=Remover clientes expirados
 After=adlamin-start_up.service
+Requires=adlamin-start_up.service
 
 [Service]
 Type=oneshot

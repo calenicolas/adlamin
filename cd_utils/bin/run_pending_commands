@@ -1,0 +1,26 @@
+#!/bin/bash
+
+COMMANDS_PATH=/home/deploy/jail/commands
+
+if [ ! -d "$COMMANDS_PATH" ]; then
+  exit 1
+fi
+
+for COMMAND_FILE in $(ls "$COMMANDS_PATH"/*.json | sort -t'-' -k2,2n)
+    if [ ! -f "$COMMAND_FILE" ]; then
+      continue
+    fi
+
+    ACTION=$(basename "$COMMAND_FILE" | cut -d'-' -f1)
+    DATA=$(jq -c . "$COMMAND_FILE")
+    if [ -z "$DATA" ]; then
+        DATA='{}'
+    fi
+
+    if [ "$ACTION" == "deploy" ]; then
+        /usr/local/bin/load_docker_images
+    fi
+
+    /usr/local/bin/adlamin-cli "$ACTION $DATA"
+    rm $file
+done

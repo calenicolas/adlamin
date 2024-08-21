@@ -1,0 +1,13 @@
+[Unit]
+Description=Loads docker images into local registry
+After=adlamin-start_up.service
+Requires=adlamin-start_up.service
+Conflicts=run-pending-commands.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/run_pending_commands
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
