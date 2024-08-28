@@ -1,0 +1,10 @@
+[Unit]
+Description=Auto scales adlamin applications every 20 seconds
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=20s
+Unit=auto-scale.service
+
+[Install]
+WantedBy=timers.target

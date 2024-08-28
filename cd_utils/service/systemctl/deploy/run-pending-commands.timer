@@ -1,5 +1,5 @@
 [Unit]
-Description=Runs adlamin commands every minute
+Description=Runs pending adlamin commands every minute
 
 [Timer]
 OnBootSec=1min

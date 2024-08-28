@@ -1,0 +1,13 @@
+[Unit]
+Description=Auto scales adlamin applications
+After=adlamin-start_up.service
+Requires=adlamin-start_up.service
+Conflicts=auto-scale.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/adlamin-cli autoscale
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

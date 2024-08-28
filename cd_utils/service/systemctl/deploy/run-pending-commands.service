@@ -1,5 +1,5 @@
 [Unit]
-Description=Loads docker images into local registry
+Description=Runs pending adlamin commands
 After=adlamin-start_up.service
 Requires=adlamin-start_up.service
 Conflicts=run-pending-commands.service

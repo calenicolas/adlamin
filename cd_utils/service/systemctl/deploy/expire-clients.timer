@@ -1,5 +1,5 @@
 [Unit]
-Description=Remover clientes expirados
+Description=Expires http clients of protected adlamin applications every hour
 
 [Timer]
 OnActiveSec=1h

@@ -1,11 +1,13 @@
 [Unit]
-Description=Remover clientes expirados
+Description=Expires http clients of protected adlamin applications
 After=adlamin-start_up.service
 Requires=adlamin-start_up.service
+Conflicts=auto-scale.service
 
 [Service]
-Type=oneshot
-ExecStartPre=/bin/sleep 10
+Type=simple
 ExecStart=/usr/local/bin/adlamin-cli expire_clients
+RemainAfterExit=yes
+
 [Install]
 WantedBy=default.target

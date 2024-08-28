@@ -1,5 +1,5 @@
 [Unit]
-Description=Initializer for adlamin deploy service
+Description=Adlamin Initializer
 After=docker.service
 
 [Service]
