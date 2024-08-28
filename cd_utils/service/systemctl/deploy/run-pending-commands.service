@@ -7,7 +7,6 @@ Conflicts=run-pending-commands.service
 [Service]
 Type=simple
 ExecStart=/usr/local/bin/run_pending_commands
-RemainAfterExit=yes
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
