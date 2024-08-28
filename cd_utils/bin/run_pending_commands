@@ -6,7 +6,11 @@ if [ ! -d "$COMMANDS_PATH" ]; then
   exit 1
 fi
 
-for COMMAND_FILE in $(ls "$COMMANDS_PATH"/*.json | sort -t'-' -k2,2n)
+if [ -z "$(ls -A "$COMMANDS_PATH"/*.json 2>/dev/null)" ]; then
+  exit 0
+fi
+
+for COMMAND_FILE in $(ls "$COMMANDS_PATH"/*.json | sort -t'-' -k2,2n); do
     if [ ! -f "$COMMAND_FILE" ]; then
       continue
     fi
@@ -21,6 +25,6 @@ for COMMAND_FILE in $(ls "$COMMANDS_PATH"/*.json | sort -t'-' -k2,2n)
         /usr/local/bin/load_docker_images
     fi
 
-    /usr/local/bin/adlamin-cli "$ACTION $DATA"
-    rm $file
+    /usr/local/bin/adlamin-cli "$ACTION" "$DATA"
+    rm "$COMMAND_FILE"
 done

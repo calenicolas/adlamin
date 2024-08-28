@@ -27,6 +27,8 @@ systemctl enable adlamin-socket
 systemctl -M $1@ --user daemon-reload
 systemctl -M $1@ --user enable run-pending-commands
 systemctl -M $1@ --user enable run-pending-commands.timer
+systemctl -M $1@ --user enable auto-scale
+systemctl -M $1@ --user enable auto-scale.timer
 systemctl -M $1@ --user enable expire-clients
 systemctl -M $1@ --user enable expire-clients.timer
 systemctl -M $1@ --user enable adlamin-start_up

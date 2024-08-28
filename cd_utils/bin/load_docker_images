@@ -9,8 +9,5 @@ for image in "$IMAGE_PATH"/*.tar; do
   fi
   echo "loading $image"
   docker load -i "$image"
-
-  TIMESTAMP_MILLIS=$(($(date +%s%N)/1000000))
-  mv "${image%.tar}.json" "$PENDING_PATH/$TIMESTAMP_MILLIS.json"
   rm "$image"
 done
