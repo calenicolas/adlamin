@@ -41,11 +41,11 @@ nano /etc/adlamin/configuration.json
 
 mkdir /etc/adlamin/ssl
 
-openssl genpkey -algorithm RSA -out certificate.key -pkeyopt rsa_keygen_bits:2048
-openssl req -new -x509 -key certificate.key -out certificate.crt -days 365
+openssl genrsa -out privkey.pem 2048
+openssl req -new -x509 -key privkey.pem -out fullchain.pem -days 365
 
-mv certificate.key /etc/adlamin/ssl
-mv certificate.crt /etc/adlamin/ssl
+mv privkey.pem /etc/adlamin/ssl
+mv fullchain.pem /etc/adlamin/ssl
 
 chmod 644 /etc/adlamin/ssl/*
 
