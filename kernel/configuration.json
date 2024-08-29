@@ -5,5 +5,8 @@
   "applicationsPath": "/etc/adlamin/applications",
   "knockdConfPath": "/etc/knockd.conf",
   "httpClientsPath": "/etc/adlamin/http-clients",
-  "dockerSocket": "unix:///run/user/1001/docker.sock"
+  "dockerSocket": "unix:///run/user/1001/docker.sock",
+  "prometheus": {
+    "memory": "100m"
+  }
 }
