@@ -49,5 +49,5 @@ mv fullchain.pem /etc/adlamin/ssl
 
 chmod 644 /etc/adlamin/ssl/*
 
-echo "Move los certificados ssl a /etc/adlamin/ssl. Tienen que llamarse certificate.crt y certificate.key"
-echo "Configura el daemon de docker para correr rootless. Para configurar el socket de docker, edita /etc/adlamin/configuration.json"
+echo "Move los certificados ssl a /etc/adlamin/ssl. Tienen que llamarse fullchain.pem y privkey.pem"
+echo "Para configurar el socket de docker, edita /etc/adlamin/configuration.json"
