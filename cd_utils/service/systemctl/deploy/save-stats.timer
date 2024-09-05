@@ -1,0 +1,10 @@
+[Unit]
+Description=Saves adlamin stats every 20 seconds
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=20s
+Unit=save-stats.service
+
+[Install]
+WantedBy=timers.target

@@ -17,6 +17,8 @@ systemctl -M $1@ --user enable run-pending-commands
 systemctl -M $1@ --user enable run-pending-commands.timer
 systemctl -M $1@ --user enable auto-scale
 systemctl -M $1@ --user enable auto-scale.timer
+systemctl -M $1@ --user enable save-stats
+systemctl -M $1@ --user enable save-stats.timer
 systemctl -M $1@ --user enable expire-clients
 systemctl -M $1@ --user enable expire-clients.timer
 systemctl -M $1@ --user enable adlamin-start_up
