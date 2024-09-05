@@ -1,3 +1,14 @@
+# Configuracion
+- reverseProxyPath
+- certificatesPath
+- prometheusPath
+- applicationsPath
+- knockdConfPath
+- httpClientsPath
+- statsFile
+- dockerSocket
+- prometheus
+- grafana
 
 # Parametros para las acciones
 

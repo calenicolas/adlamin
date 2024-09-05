@@ -3,26 +3,20 @@
 git reset --hard
 git pull
 
-cd iptables_utils
-./install.sh
+read -p "Docker socket: [unix:///run/user/1001/docker.sock] " DOCKER_SOCKET
+DOCKER_SOCKET=${DOCKER_SOCKET:-"unix:///run/user/1001/docker.sock"}
+
+read -p "Docker user: [deploy] " DOCKER_USER
+DOCKER_USER=${DOCKER_USER:-"deploy"}
+
+cd kernel
+./update.sh $DOCKER_SOCKET
 cd ..
 
 cd cd_utils
-./install.sh
+./update.sh $DOCKER_USER
 cd ..
 
-cd docker_utils
-./install.sh
-cd ..
+nano /etc/adlamin/configuration.json
 
-cd knock_utils
-./install.sh
-cd ..
-
-cd reverse_proxy
-./install.sh
-cd ..
-
-cd monitor_utils
-./install.sh
-cd ..
+echo "Adlamin actualizado"
