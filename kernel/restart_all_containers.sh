@@ -16,6 +16,9 @@ fi
 
 for FILE in $YML_FILES; do
   docker -H $1 compose -f "$FILE" down --remove-orphans
+done
+
+for FILE in $YML_FILES; do
   docker -H $1 compose -f "$FILE" up -d
 done
 
