@@ -2,7 +2,7 @@
 Description=Runs pending adlamin commands
 After=adlamin-start_up.service
 Requires=adlamin-start_up.service
-Conflicts=run-pending-commands.service
+Conflicts=run-pending-commands.service auto-scale.service
 
 [Service]
 Type=simple

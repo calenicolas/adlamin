@@ -2,7 +2,7 @@
 Description=Auto scales adlamin applications
 After=adlamin-start_up.service
 Requires=adlamin-start_up.service
-Conflicts=auto-scale.service
+Conflicts=auto-scale.service run-pending-commands.service
 
 [Service]
 Type=simple

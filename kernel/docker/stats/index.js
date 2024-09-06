@@ -21,10 +21,16 @@ const hostMemoryUsage = new client.Gauge({
     name: 'host_memory_usage',
     help: 'Memory usage of the host'
 });
+const actionsLogs = new client.Gauge({
+    name: 'actions_logs',
+    help: 'Results of adlamin actions',
+    labelNames: ['action', 'status', 'parameters', 'time']
+});
 register.registerMetric(containersCpuUsage);
 register.registerMetric(containersMemoryUsage);
 register.registerMetric(hostCpuUsage);
 register.registerMetric(hostMemoryUsage);
+register.registerMetric(actionsLogs);
 
 const server = http.createServer((req, res) => {
     getMetrics()
@@ -43,9 +49,12 @@ function getMetrics() {
     let stats;
     try {
         const statsFile = fs.readFileSync("./stats.json");
+        const actionsLogsFile = fs.readFileSync("./actions_logs.json");
         stats = JSON.parse(statsFile);
+        const logs = JSON.parse(actionsLogsFile);
         registerOsStats(stats.os);
         registerContainersStats(stats.containers);
+        registerActionsLogs(logs);
         return register.metrics();
     } catch (error) {
         return Promise.reject(error);
@@ -64,6 +73,12 @@ function registerContainersStats(containers) {
         const cpuPercentage = parseFloat(container.cpu);
         containersCpuUsage.labels(container.name).set(cpuPercentage);
         containersMemoryUsage.labels(container.name).set(memoryPercentage);
+    });
+}
+
+function registerActionsLogs(logs) {
+    logs.forEach(({ action, status, parameters, time }) => {
+        actionsLogs.labels(action, status, parameters, time).set(1);
     });
 }
 

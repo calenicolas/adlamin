@@ -6,6 +6,7 @@
 - knockdConfPath
 - httpClientsPath
 - statsFile
+- actionsLogs
 - dockerSocket
 - prometheus
 - grafana
