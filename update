@@ -9,6 +9,7 @@ DOCKER_SOCKET=${DOCKER_SOCKET:-"unix:///run/user/1001/docker.sock"}
 read -p "Docker user: [deploy] " DOCKER_USER
 DOCKER_USER=${DOCKER_USER:-"deploy"}
 
+systemctl stop adlamin-socket
 systemctl -M $DOCKER_USER@ --user stop auto-scale
 systemctl -M $DOCKER_USER@ --user stop auto-scale.timer
 
