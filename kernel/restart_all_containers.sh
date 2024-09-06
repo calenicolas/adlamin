@@ -15,8 +15,8 @@ if [ -z "$YML_FILES" ]; then
 fi
 
 for FILE in $YML_FILES; do
-  docker -H $1 compose -f "$FILE" down
-  docker -H $1 compose -f "$FILE" up
+  docker -H $1 compose -f "$FILE" down --remove-orphans
+  docker -H $1 compose -f "$FILE" up -d
 done
 
 echo "Completado."
