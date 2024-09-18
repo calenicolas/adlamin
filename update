@@ -3,24 +3,4 @@
 git reset --hard
 git pull
 
-read -p "Docker socket: [unix:///run/user/1001/docker.sock] " DOCKER_SOCKET
-DOCKER_SOCKET=${DOCKER_SOCKET:-"unix:///run/user/1001/docker.sock"}
-
-read -p "Docker user: [deploy] " DOCKER_USER
-DOCKER_USER=${DOCKER_USER:-"deploy"}
-
-systemctl stop adlamin-socket
-systemctl -M $DOCKER_USER@ --user stop auto-scale
-systemctl -M $DOCKER_USER@ --user stop auto-scale.timer
-
-cd kernel
-./update.sh $DOCKER_SOCKET
-cd ..
-
-cd cd_utils
-./update.sh $DOCKER_USER
-cd ..
-
-nano /etc/adlamin/configuration.json
-
-echo "Adlamin actualizado"
+./run_update.sh
