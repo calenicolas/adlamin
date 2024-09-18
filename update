@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ "$EUID" -ne 0 ]
+  then echo "Error. Es necesario ser root para actualizar adlamin"
+  exit
+fi
+
 git reset --hard
 git pull
 
