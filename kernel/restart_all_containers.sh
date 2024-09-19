@@ -17,12 +17,12 @@ fi
 
 for FILE in $YML_FILES; do
   echo "Deteniendo los contenedores del archivo $FILE"
-  docker -H $1 compose -f "$FILE" down --wait
+  docker -H $1 compose -f "$FILE" down
 done
 
 for FILE in $YML_FILES; do
   echo "Iniciando los contenedores del archivo $FILE"
-  docker -H $1 compose -f "$FILE" up --remove-orphans -d --wait
+  docker -H $1 compose -f "$FILE" up -d
 done
 
 echo "Completado."
