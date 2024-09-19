@@ -20,8 +20,9 @@ for FILE in $YML_FILES; do
 done
 
 for FILE in $YML_FILES; do
+  PROJECT_NAME=$(basename "$FILE" .yml)
   echo "Iniciando los contenedores del archivo $FILE"
-  docker -H $1 compose -f "$FILE" up -d
+  docker -H $1 compose -f "$FILE" -p "$PROJECT_NAME" up -d
 done
 
 echo "Completado."
