@@ -19,7 +19,7 @@ for FILE in $YML_FILES; do
 done
 
 for FILE in $YML_FILES; do
-  docker -H $1 compose -f "$FILE" up -d -remove-orphans
+  docker -H $1 compose -f "$FILE" up -d --remove-orphans
 done
 
 echo "Completado."
