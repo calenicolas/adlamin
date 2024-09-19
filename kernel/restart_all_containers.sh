@@ -20,9 +20,9 @@ for FILE in $YML_FILES; do
   docker -H $1 compose -f "$FILE" down
 done
 
-for FILE in $YML_FILES; do
-  echo "Iniciando los contenedores del archivo $FILE"
-  docker -H $1 compose -f "$FILE" up --remove-orphans -d
-done
+# for FILE in $YML_FILES; do
+#   echo "Iniciando los contenedores del archivo $FILE"
+#   docker -H $1 compose -f "$FILE" up --remove-orphans -d
+# done
 
 echo "Completado."
