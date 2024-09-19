@@ -2,7 +2,7 @@
 Description=Saves adlamin stats
 After=adlamin-start_up.service
 Requires=adlamin-start_up.service
-Conflicts=save-stats.service
+Conflicts=save-stats.service auto-scale.service
 
 [Service]
 Type=simple
