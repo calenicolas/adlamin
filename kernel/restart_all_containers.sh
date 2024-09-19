@@ -14,15 +14,16 @@ if [ -z "$YML_FILES" ]; then
   exit 1
 fi
 
-
 for FILE in $YML_FILES; do
+  PROJECT_NAME=$(basename "$FILE" .yml)
   echo "Deteniendo los contenedores del archivo $FILE"
-  docker -H $1 compose -f "$FILE" down
+  docker -H $1 compose -f "$FILE" -p "$PROJECT_NAME" down
 done
 
 for FILE in $YML_FILES; do
+  PROJECT_NAME=$(basename "$FILE" .yml)
   echo "Iniciando los contenedores del archivo $FILE"
-  docker -H $1 compose -f "$FILE" up -d
+  docker -H $1 compose -f "$FILE" -p "$PROJECT_NAME" up -d
 done
 
 echo "Completado."
