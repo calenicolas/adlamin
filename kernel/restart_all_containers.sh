@@ -16,7 +16,7 @@ fi
 
 for FILE in $YML_FILES; do
   echo "Deteniendo los contenedores del archivo $FILE"
-  docker -H $1 compose -f "$FILE" down --remove-orphans
+  docker -H $1 compose -f "$FILE" down
 done
 
 for FILE in $YML_FILES; do
