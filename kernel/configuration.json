@@ -10,5 +10,6 @@
   "dockerSocket": "unix:///run/user/1001/docker.sock",
   "prometheus": {
     "memory": "100m"
-  }
+  },
+  "grafanaPortKnockingSequence": "6007 2003 5006"
 }
